@@ -111,7 +111,6 @@ Kontribusi sangat welcome! Terutama untuk:
 
 - Penyempurnaan logika faraidh (kasus khusus & mazhab)
 - Penambahan antarmuka yang lebih interaktif
-- Riset kolaboratif di bidang **EdTech**, **HCI**, atau **AI + Islamic Studies**
 
 ```bash
 # Fork → buat branch baru → commit → Pull Request
@@ -125,10 +124,6 @@ git push origin fitur/nama-fitur
 ## 👤 Author
 
 **FaraidPro** dibuat oleh [@fathahnoor](https://github.com/fathahnoor)
-
-- 🎓 Dosen & Peneliti — Telkom University
-- 🔬 Minat riset: AI, EEG/BCI, XR, EdTech, Islamic Technology
-- 🌐 GitHub: [github.com/fathahnoor](https://github.com/fathahnoor)
 
 ---
 
