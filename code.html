@@ -200,7 +200,7 @@
     .layout {
       display: grid;
       gap: 24px;
-      grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
+      grid-template-columns: minmax(0, 1fr) minmax(400px, 1.15fr);
       align-items: start;
     }
 
@@ -522,7 +522,13 @@
 
     .legend-swatch { border-radius: 999px; height: 12px; width: 12px; }
 
-    .table-wrap { border: 1px solid var(--surface-mid); border-radius: 22px; overflow: hidden; }
+    .table-wrap {
+      border: 1px solid var(--surface-mid);
+      border-radius: 22px;
+      overflow: hidden;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
 
     table { border-collapse: collapse; width: 100%; }
 
@@ -595,6 +601,15 @@
       .clay-card { box-shadow: none !important; border: 1px solid #ddd; }
       .clay-card::before { display: none; }
       .shell { padding: 10px; }
+    }
+
+    .sub-table-hint {
+      display: block;
+      color: var(--muted);
+      font-size: 0.78rem;
+      text-align: center;
+      margin-top: 6px;
+      font-style: italic;
     }
 
     .rules { margin-top: 24px; }
@@ -1643,6 +1658,7 @@
           </td>
           <td>
             ${escapeHtml(row.basis.join(" "))}
+            ${row.count > 1 ? `<div class="reason">Bagian per orang: ${row.perPersonFraction}</div>` : ""}
           </td>
         </tr>
       `).join("");
@@ -1713,6 +1729,7 @@
             <tbody>${rowsHtml}</tbody>
           </table>
         </div>
+        <small class="sub-table-hint">Geser tabel ke samping untuk melihat informasi selengkapnya</small>
         ${noticeHtml}
         ${blockedHtml}
       `;
