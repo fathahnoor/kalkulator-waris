@@ -1,6 +1,6 @@
 # ☪️ FaraidPro - Kalkulator Waris Islam
 
-> Simulasi pembagian harta waris berdasarkan ilmu **Faraidh**, akurat, cepat, dan langsung berjalan di browser tanpa instalasi.
+> Simulasi pembagian harta waris berdasarkan ilmu **Faraidh**; akurat, cepat, dan langsung berjalan di browser tanpa instalasi.
 
 ![Platform](https://img.shields.io/badge/Platform-Web%20%2F%20HTML-orange?logo=html5)
 ![Language](https://img.shields.io/badge/Language-JavaScript-yellow?logo=javascript)
