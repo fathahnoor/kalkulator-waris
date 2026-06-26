@@ -30,6 +30,8 @@
       --outline: #c7cec5;
       --danger: #ba1a1a;
       --danger-pale: #ffdad6;
+      --male: #2b5f8a;
+      --female: #b34e6a;
       --shadow: 12px 12px 24px rgba(0, 0, 0, 0.055), -12px -12px 24px rgba(255, 255, 255, 0.82);
       --shadow-soft: 8px 8px 18px rgba(0, 0, 0, 0.05), -8px -8px 18px rgba(255, 255, 255, 0.8);
       --inner: inset 6px 6px 12px rgba(255, 255, 255, 0.62), inset -6px -6px 12px rgba(0, 0, 0, 0.035);
@@ -59,6 +61,23 @@
     button, input, select { font: inherit; }
     button { cursor: pointer; }
     a { color: inherit; text-decoration: none; }
+
+    /* ===== SKIP NAV ===== */
+    .skip-nav {
+      position: fixed;
+      top: -100%;
+      left: 16px;
+      z-index: 9999;
+      background: var(--primary);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 0 0 16px 16px;
+      font-weight: 700;
+      font-size: 0.92rem;
+      transition: top 0.2s ease;
+      text-decoration: none;
+    }
+    .skip-nav:focus { top: 0; }
 
     .material-symbols-outlined {
       direction: ltr;
@@ -123,6 +142,8 @@
     }
 
     .nav-links a:hover, .icon-button:hover { background: var(--surface-mid); color: var(--primary); }
+    .nav-links a.disabled { opacity: 0.4; pointer-events: none; }
+    .nav-links a.disabled { opacity: 0.4; pointer-events: none; }
 
     .icon-button { background: transparent; justify-content: center; min-width: 40px; padding: 8px; }
 
@@ -271,6 +292,9 @@
 
     .choice-button .material-symbols-outlined { font-size: 2.35rem; }
 
+    .choice-button.gender-male.is-active { background: var(--male); color: white; }
+    .choice-button.gender-female.is-active { background: var(--female); color: white; }
+
     .choice-button.is-active, .chip.is-active {
       background: var(--primary-soft);
       color: white;
@@ -331,7 +355,10 @@
     .heir-card.is-disabled { opacity: 0.44; }
 
     .heir-title { align-items: center; display: flex; gap: 10px; min-height: 46px; }
-    .heir-title .material-symbols-outlined { color: var(--primary); flex: 0 0 auto; font-size: 1.6rem; }
+    .heir-title .material-symbols-outlined { flex: 0 0 auto; font-size: 1.6rem; }
+    .heir-title .heir-icon-male { color: var(--male); }
+    .heir-title .heir-icon-female { color: var(--female); }
+    .heir-title .heir-icon-neutral { color: var(--primary); }
     .heir-title strong { color: var(--ink); display: block; font-size: 0.94rem; line-height: 1.25; }
     .heir-title small { color: var(--muted); display: block; line-height: 1.25; margin-top: 2px; }
 
@@ -395,11 +422,15 @@
       box-shadow: var(--inner);
       display: grid;
       gap: 12px;
-      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-columns: minmax(0, 1fr) auto auto;
       padding: 14px;
     }
 
     .toggle-row small { color: var(--muted); display: block; margin-top: 2px; }
+
+    .switch-status { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; min-width: 5ch; text-align: center; }
+    .switch-status.active { color: var(--primary); }
+    .switch-status.inactive { color: var(--muted); }
 
     .switch {
       align-items: center;
@@ -425,7 +456,218 @@
 
     .switch input:checked + i { background: var(--primary); transform: translateX(28px); }
 
-    .actions {
+
+    /* ===== BINARY CHECKBOX ===== */
+    .binary-check {
+      align-items: center;
+      background: var(--surface-card);
+      border: 0;
+      border-radius: 999px;
+      box-shadow: var(--inner-input);
+      display: inline-flex;
+      gap: 10px;
+      height: 44px;
+      margin-top: 12px;
+      padding: 0 16px;
+      cursor: pointer;
+      transition: 160ms ease;
+      width: 100%;
+      min-width: 0;
+      justify-content: space-between;
+    }
+    .binary-check:hover { background: var(--surface-high); }
+    .binary-check .check-indicator {
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      border: 2px solid var(--outline);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: 160ms ease;
+      flex: 0 0 auto;
+      color: white;
+      font-size: 1rem;
+    }
+    .binary-check.is-checked .check-indicator {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+    .binary-check .binary-label { font-weight: 600; color: var(--ink); font-size: 0.94rem; }
+    .binary-check .binary-hint { color: var(--muted); font-size: 0.78rem; }
+
+    /* ===== ACCORDION ===== */
+    .accordion {
+      border-top: 1px solid var(--surface-mid);
+      margin-top: 30px;
+      padding-top: 30px;
+    }
+    .accordion-trigger {
+      align-items: center;
+      background: none;
+      border: 0;
+      border-radius: 18px;
+      color: var(--primary);
+      cursor: pointer;
+      display: flex;
+      font-weight: 750;
+      font-size: 1rem;
+      gap: 12px;
+      justify-content: space-between;
+      padding: 14px 18px;
+      width: 100%;
+      text-align: left;
+      transition: background 160ms ease;
+    }
+    .accordion-trigger:hover { background: var(--surface-low); }
+    .accordion-trigger .material-symbols-outlined { transition: transform 200ms ease; font-size: 1.4rem; }
+    .accordion-trigger[aria-expanded="true"] .material-symbols-outlined { transform: rotate(180deg); }
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, opacity 0.25s ease;
+      opacity: 0;
+    }
+    .accordion-content.is-open {
+      max-height: 1000px;
+      opacity: 1;
+    }
+    .accordion-inner { padding: 0 18px 8px; }
+
+    /* ===== TOOLTIP ===== */
+    .tip-wrap { position: relative; cursor: help; }
+    .tip-wrap .tip-text {
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--ink);
+      color: var(--surface-card);
+      font-size: 0.78rem;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 10px;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      z-index: 10;
+    }
+    .tip-wrap:hover .tip-text,
+    .tip-wrap:focus .tip-text { opacity: 1; }
+
+    /* ===== DISCLAIMER BANNER ===== */
+    .disclaimer-banner {
+      align-items: center;
+      background: var(--gold-pale);
+      border-radius: 18px;
+      color: #6b4a1e;
+      display: flex;
+      gap: 10px;
+      font-size: 0.85rem;
+      margin-bottom: 24px;
+      padding: 12px 16px;
+    }
+    .disclaimer-banner .material-symbols-outlined { flex: 0 0 auto; font-size: 1.3rem; }
+    [data-theme="dark"] .disclaimer-banner { background: rgba(201, 145, 58, 0.15); color: #c9913a; }
+
+    /* ===== FLOATING ACTION BUTTON ===== */
+    .fab-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 30;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-end;
+    }
+    .fab {
+      align-items: center;
+      background: var(--primary);
+      border: 0;
+      border-radius: 999px;
+      box-shadow: 0 6px 20px rgba(61, 103, 72, 0.35), inset 3px 3px 8px rgba(255,255,255,0.2), inset -3px -3px 8px rgba(0,0,0,0.15);
+      color: white;
+      cursor: pointer;
+      display: inline-flex;
+      font-weight: 800;
+      gap: 10px;
+      min-height: 56px;
+      padding: 12px 24px;
+      transition: transform 150ms ease, box-shadow 150ms ease;
+    }
+    .fab:active { transform: scale(0.96); }
+    .fab .material-symbols-outlined { font-size: 1.4rem; }
+    [data-theme="dark"] .fab {
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4), inset 3px 3px 8px rgba(255,255,255,0.1), inset -3px -3px 8px rgba(0,0,0,0.2);
+    }
+
+    /* ===== VALIDATION ===== */
+    .field-error {
+      color: var(--danger);
+      font-size: 0.78rem;
+      font-weight: 600;
+      margin-top: 2px;
+      min-height: 1.2em;
+    }
+    .money-input.has-error {
+      box-shadow: var(--inner-input), 0 0 0 2px rgba(186, 26, 26, 0.3);
+    }
+
+    /* ===== HERO SAMPLE BUTTON ===== */
+    .hero-sample-btn {
+      align-items: center;
+      background: var(--gold-pale);
+      border: 0;
+      border-radius: 999px;
+      color: var(--gold);
+      display: inline-flex;
+      font-weight: 700;
+      font-size: 0.85rem;
+      gap: 8px;
+      margin-top: 14px;
+      min-height: 44px;
+      padding: 10px 18px;
+      transition: 160ms ease;
+    }
+    .hero-sample-btn:hover { background: var(--gold); color: white; }
+    .hero-sample-btn .material-symbols-outlined { font-size: 1.2rem; }
+
+
+    /* ===== BINARY CHECKBOX ===== */
+    .binary-check {
+      align-items: center;
+      background: var(--surface-card);
+      border: 0;
+      border-radius: 18px;
+      box-shadow: var(--inner-input);
+      display: flex;
+      gap: 10px;
+      height: 44px;
+      margin-top: 12px;
+      padding: 0 16px;
+      cursor: pointer;
+      transition: 160ms ease;
+      width: 100%;
+      justify-content: space-between;
+    }
+    .binary-check:hover { background: var(--surface-high); }
+    .binary-check .check-indicator {
+      width: 24px; height: 24px;
+      border-radius: 999px;
+      border: 2px solid var(--outline);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: 160ms ease;
+      flex: 0 0 auto;
+      color: white;
+      font-size: 0.85rem;
+    }
+    .binary-check.is-checked .check-indicator { background: var(--primary); border-color: var(--primary); }
+    .binary-check .binary-label { font-weight: 600; color: var(--ink); font-size: 0.92rem; }
+    .binary-check .binary-hint { color: var(--muted); font-size: 0.78rem; }
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
@@ -814,6 +1056,8 @@
   </style>
 </head>
 <body>
+  <a class="skip-nav" href="#calculator">Lompat ke kalkulator</a>
+  <a class="skip-nav" href="#calculator">Lompat ke kalkulator</a>
   <header class="topbar">
     <div class="topbar-inner">
       <a class="brand" href="#calculator" aria-label="FaraidPro">
@@ -824,8 +1068,8 @@
         <a href="#calculator"><span class="material-symbols-outlined" aria-hidden="true">calculate</span>Hitung</a>
         <a href="#hasil"><span class="material-symbols-outlined" aria-hidden="true">pie_chart</span>Hasil</a>
         <a href="#aturan"><span class="material-symbols-outlined" aria-hidden="true">menu_book</span>Aturan</a>
-        <a href="#" id="printBtn"><span class="material-symbols-outlined" aria-hidden="true">print</span>Cetak</a>
-        <a href="#" id="shareBtn" title="Bagikan hasil"><span class="material-symbols-outlined" aria-hidden="true">share</span></a>
+        <a href="#" id="printBtn" class="disabled"><span class="material-symbols-outlined" aria-hidden="true">print</span>Cetak</a>
+        <a href="#" id="shareBtn" class="disabled" title="Bagikan hasil"><span class="material-symbols-outlined" aria-hidden="true">share</span></a>
         <button class="icon-button" type="button" id="themeToggle" aria-label="Ganti tema">
           <span class="material-symbols-outlined" aria-hidden="true">dark_mode</span>
         </button>
@@ -879,6 +1123,10 @@
         <p class="eyebrow">Ilmu Faraid • KHI Indonesia • Perhitungan lokal</p>
         <h1 id="page-title">Kalkulator Waris Islam</h1>
         <p class="hero-copy">Masukkan harta siap bagi dan komposisi keluarga, lalu lihat bagian ahli waris, alasan hijab, serta penanganan kasus aul, radd, gharawain, musytarakah, akdariyyah, kakek bersama saudara, dan dzawil arham.</p>
+        <button class="hero-sample-btn" type="button" id="heroSampleBtn">
+          <span class="material-symbols-outlined" aria-hidden="true">science</span>
+          Coba Contoh Kasus
+        </button>
       </div>
       <div class="status-card" aria-live="polite">
         <strong id="netHero">Rp0</strong>
@@ -886,10 +1134,9 @@
       </div>
     </section>
 
-    <div class="steps" aria-label="Alur kalkulator">
-      <div class="step-pill" id="step1"><b>1</b><span>Harta</span></div>
-      <div class="step-pill" id="step2"><b>2</b><span>Ahli waris</span></div>
-      <div class="step-pill" id="step3"><b>3</b><span>Hasil</span></div>
+    <div class="disclaimer-banner">
+      <span class="material-symbols-outlined" aria-hidden="true">gavel</span>
+      <span><strong>Simulasi awal:</strong> Hasil ini bersifat informatif dan bukan pengganti konsultasi ahli faraid atau putusan pengadilan.</span>
     </div>
 
     <div class="layout">
@@ -901,7 +1148,10 @@
                 <h2 id="section-pewaris">Data Pewaris dan Harta</h2>
                 <p>Wasiat dihitung setelah biaya tajhiz dan hutang.</p>
               </div>
-              <span class="soft-badge"><span class="material-symbols-outlined" aria-hidden="true">lock</span>Lokal</span>
+              <span class="soft-badge tip-wrap" tabindex="0" aria-label="Data diproses di perangkat Anda, tidak dikirim ke server">
+                <span class="material-symbols-outlined" aria-hidden="true">lock</span>Lokal
+                <span class="tip-text">Data diproses di perangkat Anda</span>
+              </span>
             </div>
 
             <div class="choice-grid" role="radiogroup" aria-label="Jenis kelamin pewaris">
@@ -916,22 +1166,23 @@
             </div>
             <input type="hidden" id="deceasedGender" value="" required />
 
-            <div class="field-grid" style="margin-top: 22px;">
+            <div class="field-error" id="grossEstateError" style="margin-top: 22px;"></div>
+            <div class="field-grid" style="margin-top: 8px;">
               <div class="field">
                 <label for="grossEstate">Harta peninggalan</label>
-                <input class="money-input" id="grossEstate" inputmode="numeric" placeholder="0" value="0" />
+                <input class="money-input" id="grossEstate" inputmode="numeric" placeholder="Contoh: 500.000.000" value="0" />
               </div>
               <div class="field">
                 <label for="funeralCost">Biaya tajhiz</label>
-                <input class="money-input" id="funeralCost" inputmode="numeric" placeholder="0" value="0" />
+                <input class="money-input" id="funeralCost" inputmode="numeric" placeholder="Contoh: 10.000.000" value="0" />
               </div>
               <div class="field">
                 <label for="debts">Hutang pewaris</label>
-                <input class="money-input" id="debts" inputmode="numeric" placeholder="0" value="0" />
+                <input class="money-input" id="debts" inputmode="numeric" placeholder="Contoh: 5.000.000" value="0" />
               </div>
               <div class="field">
                 <label for="willAmount">Wasiat</label>
-                <input class="money-input" id="willAmount" inputmode="numeric" placeholder="0" value="0" />
+                <input class="money-input" id="willAmount" inputmode="numeric" placeholder="Contoh: 50.000.000" value="0" />
               </div>
             </div>
 
@@ -940,9 +1191,12 @@
                 Wasiat lebih dari sepertiga disetujui ahli waris
                 <small>Jika tidak aktif, kelebihan wasiat otomatis dibatasi.</small>
               </span>
-              <span class="switch">
-                <input type="checkbox" id="willConsent" />
-                <i aria-hidden="true"></i>
+              <span style="display:flex;align-items:center;gap:8px;">
+                <span class="switch-status inactive" id="willConsentStatus">Nonaktif</span>
+                <span class="switch">
+                  <input type="checkbox" id="willConsent" />
+                  <i aria-hidden="true"></i>
+                </span>
               </span>
             </label>
 
@@ -970,14 +1224,20 @@
             <div class="heir-groups" id="heirGroups"></div>
           </section>
 
-          <section class="section-block" aria-labelledby="section-opsi">
+          <section class="section-block accordion" aria-labelledby="section-opsi">
             <div class="section-head">
               <div>
                 <h2 id="section-opsi">Opsi Ijtihad</h2>
                 <p>Default mengikuti pendapat jumhur yang umum dipakai di Indonesia.</p>
               </div>
-              <span class="soft-badge"><span class="material-symbols-outlined" aria-hidden="true">tune</span>Opsi</span>
+              <span class="soft-badge"><span class="material-symbols-outlined" aria-hidden="true">tune</span>Lanjutan</span>
             </div>
+            <button class="accordion-trigger" type="button" id="accordionTrigger" aria-expanded="false" aria-controls="accordionContent">
+              <span><span class="material-symbols-outlined" aria-hidden="true">tune</span> Pengaturan Lanjutan</span>
+              <span class="material-symbols-outlined" aria-hidden="true">expand_more</span>
+            </button>
+            <div class="accordion-content" id="accordionContent">
+            <div class="accordion-inner">
 
             <div class="toggle-stack">
               <label class="toggle-row">
@@ -989,6 +1249,7 @@
                   <input type="checkbox" id="optGharawain" checked />
                   <i aria-hidden="true"></i>
                 </span>
+                <span class="switch-status active" id="optGharawainStatus">Aktif</span>
               </label>
               <label class="toggle-row">
                 <span>
@@ -999,6 +1260,7 @@
                   <input type="checkbox" id="optMusytarakah" checked />
                   <i aria-hidden="true"></i>
                 </span>
+                <span class="switch-status active" id="optMusytarakahStatus">Aktif</span>
               </label>
               <label class="toggle-row">
                 <span>
@@ -1009,6 +1271,7 @@
                   <input type="checkbox" id="optSpouseRadd" />
                   <i aria-hidden="true"></i>
                 </span>
+                <span class="switch-status inactive" id="optSpouseRaddStatus">Nonaktif</span>
               </label>
               <label class="toggle-row">
                 <span>
@@ -1019,6 +1282,7 @@
                   <input type="checkbox" id="optGrandfatherSiblings" checked />
                   <i aria-hidden="true"></i>
                 </span>
+                <span class="switch-status active" id="optGrandfatherSiblingsStatus">Aktif</span>
               </label>
               <label class="toggle-row">
                 <span>
@@ -1029,7 +1293,10 @@
                   <input type="checkbox" id="optDzawilArham" />
                   <i aria-hidden="true"></i>
                 </span>
+                <span class="switch-status inactive" id="optDzawilArhamStatus">Nonaktif</span>
               </label>
+            </div>
+            </div>
             </div>
 
             <div class="actions">
@@ -1055,7 +1322,7 @@
           <div id="resultContent" class="empty-state">
             <span class="material-symbols-outlined" aria-hidden="true">balance</span>
             <strong>Hasil akan muncul di sini</strong>
-            <span>Bagian, nominal, dan alasan hukum ditampilkan setelah perhitungan.</span>
+            <span>Isi data harta dan ahli waris di atas, lalu klik <strong>Hitung Waris</strong> untuk melihat hasilnya.</span>
           </div>
         </div>
       </aside>
@@ -1090,7 +1357,14 @@
     <footer>
       FaraidPro memproses data di browser. Untuk sengketa, harta bersama, ahli waris pengganti, atau penghalang waris, gunakan hasil ini sebagai simulasi awal.
     </footer>
-  </main>
+    <div class="fab-container">
+    <button class="fab" type="button" id="fabBtn">
+      <span class="material-symbols-outlined" aria-hidden="true">calculate</span>
+      Hitung Waris
+    </button>
+  </div>
+
+    </main>
 
   <div class="toast-container" id="toastContainer" aria-live="polite"></div>
 
@@ -1129,29 +1403,29 @@
     const ONE = F(1);
 
     const HEIR_FIELDS = [
-      { key: "husband", label: "Suami", hint: "pasangan pewaris perempuan", icon: "male", max: 1, group: "Pasangan" },
-      { key: "wives", label: "Istri", hint: "maksimal 4 istri sah", icon: "female", max: 4, group: "Pasangan" },
-      { key: "father", label: "Ayah", hint: "orang tua laki-laki", icon: "elderly", max: 1, group: "Orang tua" },
-      { key: "mother", label: "Ibu", hint: "orang tua perempuan", icon: "elderly_woman", max: 1, group: "Orang tua" },
-      { key: "son", label: "Anak laki-laki", hint: "anak kandung", icon: "boy", max: 30, group: "Anak" },
-      { key: "daughter", label: "Anak perempuan", hint: "anak kandung", icon: "girl", max: 30, group: "Anak" },
-      { key: "grandson", label: "Cucu laki-laki", hint: "dari anak laki-laki", icon: "boy", max: 30, group: "Cucu dan leluhur" },
-      { key: "granddaughter", label: "Cucu perempuan", hint: "dari anak laki-laki", icon: "girl", max: 30, group: "Cucu dan leluhur" },
-      { key: "grandfather", label: "Kakek", hint: "ayah dari ayah", icon: "elderly", max: 1, group: "Cucu dan leluhur" },
-      { key: "grandmother_maternal", label: "Nenek jalur ibu", hint: "ibu dari ibu", icon: "elderly_woman", max: 1, group: "Cucu dan leluhur" },
-      { key: "grandmother_paternal", label: "Nenek jalur ayah", hint: "ibu dari ayah", icon: "elderly_woman", max: 1, group: "Cucu dan leluhur" },
-      { key: "full_brother", label: "Saudara laki-laki kandung", hint: "ayah dan ibu sama", icon: "man", max: 30, group: "Saudara" },
-      { key: "full_sister", label: "Saudara perempuan kandung", hint: "ayah dan ibu sama", icon: "woman", max: 30, group: "Saudara" },
-      { key: "paternal_brother", label: "Saudara laki-laki seayah", hint: "ayah sama", icon: "man", max: 30, group: "Saudara" },
-      { key: "paternal_sister", label: "Saudara perempuan seayah", hint: "ayah sama", icon: "woman", max: 30, group: "Saudara" },
-      { key: "maternal_brother", label: "Saudara laki-laki seibu", hint: "ibu sama", icon: "man", max: 30, group: "Saudara seibu" },
-      { key: "maternal_sister", label: "Saudara perempuan seibu", hint: "ibu sama", icon: "woman", max: 30, group: "Saudara seibu" },
-      { key: "full_nephew", label: "Keponakan laki-laki kandung", hint: "anak saudara kandung laki-laki", icon: "person", max: 30, group: "Ashabah lanjutan" },
-      { key: "paternal_nephew", label: "Keponakan laki-laki seayah", hint: "anak saudara seayah laki-laki", icon: "person", max: 30, group: "Ashabah lanjutan" },
-      { key: "full_uncle", label: "Paman kandung", hint: "saudara ayah sekandung", icon: "man", max: 30, group: "Ashabah lanjutan" },
-      { key: "paternal_uncle", label: "Paman seayah", hint: "saudara ayah seayah", icon: "man", max: 30, group: "Ashabah lanjutan" },
-      { key: "full_cousin", label: "Anak paman kandung", hint: "laki-laki", icon: "person", max: 30, group: "Ashabah lanjutan" },
-      { key: "paternal_cousin", label: "Anak paman seayah", hint: "laki-laki", icon: "person", max: 30, group: "Ashabah lanjutan" }
+      { key: "husband", label: "Suami", hint: "pasangan pewaris perempuan", icon: "male", iconColor: "male", max: 1, group: "Pasangan" },
+      { key: "wives", label: "Istri", hint: "maksimal 4 istri sah", icon: "female", iconColor: "female", max: 4, group: "Pasangan" },
+      { key: "father", label: "Ayah", hint: "orang tua laki-laki", icon: "elderly", iconColor: "male", max: 1, isBinary: true, group: "Orang tua" },
+      { key: "mother", label: "Ibu", hint: "orang tua perempuan", icon: "elderly_woman", iconColor: "female", max: 1, isBinary: true, group: "Orang tua" },
+      { key: "son", label: "Anak laki-laki", hint: "anak kandung", icon: "boy", iconColor: "male", max: 30, group: "Anak" },
+      { key: "daughter", label: "Anak perempuan", hint: "anak kandung", icon: "girl", iconColor: "female", max: 30, group: "Anak" },
+      { key: "grandson", label: "Cucu laki-laki", hint: "dari anak laki-laki", icon: "boy", iconColor: "male", max: 30, group: "Cucu dan leluhur" },
+      { key: "granddaughter", label: "Cucu perempuan", hint: "dari anak laki-laki", icon: "girl", iconColor: "female", max: 30, group: "Cucu dan leluhur" },
+      { key: "grandfather", label: "Kakek", hint: "ayah dari ayah", icon: "elderly", iconColor: "male", max: 1, isBinary: true, group: "Cucu dan leluhur" },
+      { key: "grandmother_maternal", label: "Nenek jalur ibu", hint: "ibu dari ibu", icon: "elderly_woman", iconColor: "female", max: 1, isBinary: true, group: "Cucu dan leluhur" },
+      { key: "grandmother_paternal", label: "Nenek jalur ayah", hint: "ibu dari ayah", icon: "elderly_woman", iconColor: "female", max: 1, isBinary: true, group: "Cucu dan leluhur" },
+      { key: "full_brother", label: "Saudara laki-laki kandung", hint: "ayah dan ibu sama", icon: "man", iconColor: "male", max: 30, group: "Saudara" },
+      { key: "full_sister", label: "Saudara perempuan kandung", hint: "ayah dan ibu sama", icon: "woman", iconColor: "female", max: 30, group: "Saudara" },
+      { key: "paternal_brother", label: "Saudara laki-laki seayah", hint: "ayah sama", icon: "man", iconColor: "male", max: 30, group: "Saudara" },
+      { key: "paternal_sister", label: "Saudara perempuan seayah", hint: "ayah sama", icon: "woman", iconColor: "female", max: 30, group: "Saudara" },
+      { key: "maternal_brother", label: "Saudara laki-laki seibu", hint: "ibu sama", icon: "man", iconColor: "male", max: 30, group: "Saudara seibu" },
+      { key: "maternal_sister", label: "Saudara perempuan seibu", hint: "ibu sama", icon: "woman", iconColor: "female", max: 30, group: "Saudara seibu" },
+      { key: "full_nephew", label: "Keponakan laki-laki kandung", hint: "anak saudara kandung laki-laki", icon: "person", iconColor: "neutral", max: 30, group: "Ashabah lanjutan" },
+      { key: "paternal_nephew", label: "Keponakan laki-laki seayah", hint: "anak saudara seayah laki-laki", icon: "person", iconColor: "neutral", max: 30, group: "Ashabah lanjutan" },
+      { key: "full_uncle", label: "Paman kandung", hint: "saudara ayah sekandung", icon: "man", iconColor: "male", max: 30, group: "Ashabah lanjutan" },
+      { key: "paternal_uncle", label: "Paman seayah", hint: "saudara ayah seayah", icon: "man", iconColor: "male", max: 30, group: "Ashabah lanjutan" },
+      { key: "full_cousin", label: "Anak paman kandung", hint: "laki-laki", icon: "person", iconColor: "neutral", max: 30, group: "Ashabah lanjutan" },
+      { key: "paternal_cousin", label: "Anak paman seayah", hint: "laki-laki", icon: "person", iconColor: "neutral", max: 30, group: "Ashabah lanjutan" }
     ];
 
     const HEIR_LABELS = HEIR_FIELDS.reduce((acc, field) => { acc[field.key] = field.label; return acc; }, {});
@@ -1791,7 +2065,15 @@
         const raw = localStorage.getItem("faraidpro-state");
         if (!raw) return;
         const data = JSON.parse(raw);
-        if (data.gender) selectGender(data.gender);
+        if (data.gender) {
+          selectGender(data.gender);
+          document.querySelectorAll("[data-gender]").forEach((button) => {
+            button.classList.remove("gender-male", "gender-female");
+            if (button.dataset.gender === data.gender) {
+              button.classList.add(data.gender === "laki" ? "gender-male" : "gender-female");
+            }
+          });
+        }
         if (data.grossEstate) document.getElementById("grossEstate").value = data.grossEstate;
         if (data.funeralCost) document.getElementById("funeralCost").value = data.funeralCost;
         if (data.debts) document.getElementById("debts").value = data.debts;
@@ -1922,10 +2204,32 @@
       const container = document.getElementById("heirGroups");
       const groups = [...new Set(HEIR_FIELDS.map((field) => field.group))];
       container.innerHTML = groups.map((group) => {
-        const cards = HEIR_FIELDS.filter((field) => field.group === group).map((field) => `
+        const cards = HEIR_FIELDS.filter((field) => field.group === group).map((field) => {
+          const iconColor = field.iconColor || "neutral";
+          if (field.isBinary) {
+            return `
           <div class="heir-card" data-heir-card="${field.key}">
             <div class="heir-title">
-              <span class="material-symbols-outlined" aria-hidden="true">${field.icon}</span>
+              <span class="material-symbols-outlined heir-icon-${iconColor}" aria-hidden="true">${field.icon}</span>
+              <span>
+                <strong>${field.label}</strong>
+                <small>${field.hint}</small>
+              </span>
+            </div>
+            <button class="binary-check" type="button" data-binary="${field.key}" aria-pressed="false" aria-label="${field.label}">
+              <span>
+                <span class="binary-label">Hidup</span>
+                <span class="binary-hint">Centang jika masih ada</span>
+              </span>
+              <span class="check-indicator">✓</span>
+            </button>
+          </div>
+        `;
+          }
+          return `
+          <div class="heir-card" data-heir-card="${field.key}">
+            <div class="heir-title">
+              <span class="material-symbols-outlined heir-icon-${iconColor}" aria-hidden="true">${field.icon}</span>
               <span>
                 <strong>${field.label}</strong>
                 <small>${field.hint}</small>
@@ -1941,7 +2245,8 @@
               </button>
             </div>
           </div>
-        `).join("");
+        `;
+        }).join("");
         return `<div class="heir-group"><h3>${group}</h3><div class="heir-grid">${cards}</div></div>`;
       }).join("");
       syncSpouseAvailability();
@@ -1984,6 +2289,8 @@
       document.querySelectorAll("[data-gender]").forEach((button) => {
         const active = button.dataset.gender === gender;
         button.classList.toggle("is-active", active);
+        button.classList.toggle("gender-male", button.dataset.gender === "laki" && active);
+        button.classList.toggle("gender-female", button.dataset.gender === "perempuan" && active);
         button.setAttribute("aria-checked", active ? "true" : "false");
       });
       syncSpouseAvailability();
@@ -2175,15 +2482,76 @@
       renderResult(result, money);
       updateSteps();
       saveState();
+      document.getElementById("printBtn").classList.remove("disabled");
+      document.getElementById("shareBtn").classList.remove("disabled");
       const content = document.getElementById("resultContent");
       content.classList.add("result-animate");
       setTimeout(() => content.classList.remove("result-animate"), 800);
     }
 
 
+    function updateSwitchStatus(id) {
+      const checkbox = document.getElementById(id);
+      const status = document.getElementById(id + "Status");
+      if (!checkbox || !status) return;
+      status.textContent = checkbox.checked ? "Aktif" : "Nonaktif";
+      status.className = "switch-status " + (checkbox.checked ? "active" : "inactive");
+    }
+
+    function initAccordion() {
+      const trigger = document.getElementById("accordionTrigger");
+      if (!trigger) return;
+      trigger.addEventListener("click", () => {
+        const expanded = trigger.getAttribute("aria-expanded") === "true";
+        trigger.setAttribute("aria-expanded", !expanded);
+        document.getElementById("accordionContent").classList.toggle("is-open", !expanded);
+      });
+    }
+
+    function initBinaryCheckboxes() {
+      document.getElementById("heirGroups").addEventListener("click", (event) => {
+        const binaryBtn = event.target.closest("[data-binary]");
+        if (!binaryBtn) return;
+        const key = binaryBtn.dataset.binary;
+        const pressed = binaryBtn.getAttribute("aria-pressed") === "true";
+        binaryBtn.setAttribute("aria-pressed", pressed ? "false" : "true");
+        binaryBtn.classList.toggle("is-checked", !pressed);
+        const input = document.getElementById("count-" + key);
+        if (input) input.value = pressed ? "0" : "1";
+        updateSteps();
+        saveState();
+      });
+    }
+
+    function initFAB() {
+      const fab = document.getElementById("fabBtn");
+      if (!fab) return;
+      fab.addEventListener("click", () => {
+        document.getElementById("calculator").requestSubmit();
+      });
+    }
+
+    function validateMoneyInput() {
+      const gross = parseMoney(document.getElementById("grossEstate").value);
+      const funeral = parseMoney(document.getElementById("funeralCost").value);
+      const debts = parseMoney(document.getElementById("debts").value);
+      const errorEl = document.getElementById("grossEstateError");
+      if (!errorEl) return;
+      if (funeral + debts > gross && gross > 0) {
+        errorEl.textContent = "Biaya tajhiz dan hutang melebihi harta peninggalan!";
+        document.getElementById("grossEstate").classList.add("has-error");
+      } else {
+        errorEl.textContent = "";
+        document.getElementById("grossEstate").classList.remove("has-error");
+      }
+    }
+
     function init() {
       initTheme();
       renderHeirInputs();
+      initAccordion();
+      initBinaryCheckboxes();
+      initFAB();
       if (!decodeShareURL()) restoreState();
       document.querySelectorAll("[data-gender]").forEach((button) => {
         button.addEventListener("click", () => { selectGender(button.dataset.gender); updateSteps(); saveState(); });
@@ -2206,11 +2574,11 @@
       });
       document.querySelectorAll(".money-input").forEach((input) => {
         input.addEventListener("input", () => { updateNetPreview(); updateSteps(); saveState(); });
-        input.addEventListener("blur", () => { formatInputValue(input); updateNetPreview(); updateSteps(); saveState(); });
+        input.addEventListener("blur", () => { formatInputValue(input); updateNetPreview(); updateSteps(); saveState(); validateMoneyInput(); });
       });
-      document.getElementById("willConsent").addEventListener("change", () => { updateNetPreview(); saveState(); });
+      document.getElementById("willConsent").addEventListener("change", () => { updateNetPreview(); saveState(); updateSwitchStatus("willConsent"); });
       ["optGharawain", "optMusytarakah", "optSpouseRadd", "optGrandfatherSiblings", "optDzawilArham"].forEach(id => {
-        document.getElementById(id).addEventListener("change", saveState);
+        document.getElementById(id).addEventListener("change", () => { saveState(); updateSwitchStatus(id); });
       });
       document.getElementById("calculator").addEventListener("submit", (event) => {
         event.preventDefault();
@@ -2220,6 +2588,14 @@
       document.getElementById("calculator").addEventListener("reset", (event) => { event.preventDefault(); resetForm(); });
       const sampleBtn = document.getElementById("loadSample");
       const sampleMenu = document.getElementById("sampleMenu");
+      document.getElementById("heroSampleBtn").addEventListener("click", () => {
+        document.getElementById("loadSample").click();
+      });
+
+      document.getElementById("heroSampleBtn").addEventListener("click", () => {
+        document.getElementById("loadSample").click();
+      });
+
       sampleBtn.addEventListener("click", (e) => {
         e.stopPropagation();
         sampleMenu.classList.toggle("hidden");
