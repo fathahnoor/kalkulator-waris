@@ -1,0 +1,22 @@
+# OS
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# QA / browser profiles
+.qa/
+
+# Agent logs
+.agents/
+
+# Logs
+*.log
+*.err
+
+# Stitch export check
+.stitch_export_check/
+
+# Source docs (already converted to app)
+*.pdf
+*.docx
+*.zip
