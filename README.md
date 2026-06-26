@@ -1,6 +1,6 @@
-# ☪️ FaraidPro – Kalkulator Waris Islam
+# ☪️ FaraidPro - Kalkulator Waris Islam
 
-> Simulasi pembagian harta waris berdasarkan ilmu **Faraidh** — akurat, cepat, dan langsung berjalan di browser tanpa instalasi.
+> Simulasi pembagian harta waris berdasarkan ilmu **Faraidh**, akurat, cepat, dan langsung berjalan di browser tanpa instalasi.
 
 ![Platform](https://img.shields.io/badge/Platform-Web%20%2F%20HTML-orange?logo=html5)
 ![Language](https://img.shields.io/badge/Language-JavaScript-yellow?logo=javascript)
@@ -12,21 +12,21 @@
 
 ## 🕌 Tentang Proyek
 
-**FaraidPro** adalah aplikasi kalkulator waris Islam berbasis web yang membantu menghitung distribusi harta peninggalan sesuai syariat Islam (ilmu faraidh). Cukup buka file `index.html` di browser atau jalankan `run.bat` untuk server lokal otomatis — tidak perlu instalasi manual.
+**FaraidPro** adalah aplikasi kalkulator waris Islam berbasis web yang membantu menghitung distribusi harta peninggalan sesuai syariat Islam (ilmu faraidh). Cukup buka file `index.html` di browser atau jalankan `run.bat` untuk server lokal otomatis, tanpa instalasi manual.
 
-Dibangun untuk kebutuhan **edukasi**, **riset**, dan **simulasi** — bukan pengganti fatwa ulama atau keputusan lembaga syariah.
+Dibangun untuk kebutuhan **edukasi**, **riset**, dan **simulasi**. Bukan pengganti fatwa ulama atau keputusan lembaga syariah.
 
 ---
 
 ## ✨ Fitur Utama
 
-- ⚖️ **Perhitungan Otomatis** — distribusi bagian ahli waris dihitung secara real-time
-- 🧮 **Berbasis Kaidah Faraidh** — mengikuti ketentuan Al-Qur'an, Sunnah, dan ijma' ulama
-- 👨‍👩‍👧‍👦 **Multi Ahli Waris** — mendukung berbagai kategori (suami/istri, anak, orang tua, saudara)
-- 💰 **Input Harta Bersih** — memperhitungkan pengurangan utang dan biaya pemakaman
-- 🌐 **Zero Dependency** — murni HTML + JS, berjalan di semua browser modern
-- 📱 **Ringan & Portabel** — bisa dijalankan secara lokal maupun online via GitHub Pages
-- 🖥️ **Layout Responsif** — panel hasil diperlebar, tabel dengan horizontal scroll untuk tampilan optimal
+- ⚖️ **Perhitungan Otomatis**: distribusi bagian ahli waris dihitung secara real-time
+- 🧮 **Berbasis Kaidah Faraidh**: mengikuti ketentuan Al-Qur'an, Sunnah, dan ijma' ulama
+- 👨‍👩‍👧‍👦 **Multi Ahli Waris**: mendukung berbagai kategori (suami/istri, anak, orang tua, saudara)
+- 💰 **Input Harta Bersih**: memperhitungkan pengurangan utang dan biaya pemakaman
+- 🌐 **Zero Dependency**: murni HTML + JS, berjalan di semua browser modern
+- 📱 **Ringan & Portabel**: bisa dijalankan secara lokal maupun online via GitHub Pages
+- 🖥️ **Layout Responsif**: panel hasil diperlebar, tabel dengan horizontal scroll untuk tampilan optimal
 
 ---
 
@@ -37,7 +37,7 @@ kalkulator-waris/
 ├── index.html                                    # Aplikasi utama kalkulator waris
 ├── run.bat                                       # Script Windows untuk menjalankan server lokal otomatis
 ├── screen.png                                    # Screenshot tampilan aplikasi
-├── Mekanisme Perhitungan Waris Islam (Ilmu Faraid) — Panduan Komprehensif untuk Pengembangan Aplikasi.md
+├── Mekanisme Perhitungan Waris Islam (Ilmu Faraid) - Panduan Komprehensif untuk Pengembangan Aplikasi.md
 │                                                 # Dokumentasi lengkap mekanisme perhitungan faraidh
 ├── DESIGN.md                                     # Catatan desain, arsitektur & rencana fitur
 ├── .gitignore
@@ -48,7 +48,7 @@ kalkulator-waris/
 
 ## 🚀 Cara Menjalankan
 
-### ⚡ Cara Tercepat (Windows) — Gunakan `run.bat`
+### ⚡ Cara Tercepat (Windows) - Gunakan `run.bat`
 
 Double-click file `run.bat` atau jalankan dari terminal:
 
@@ -57,10 +57,10 @@ run.bat
 ```
 
 Script ini secara otomatis mendeteksi lingkungan yang tersedia dan menjalankan server lokal:
-1. **Python Launcher (`py -3`)** — jika tersedia
-2. **Python** — fallback ke `python`
-3. **Node.js** — jika Python tidak ada
-4. **Fallback** — membuka `index.html` langsung di browser default
+1. **Python Launcher (`py -3`)** - jika tersedia
+2. **Python** - fallback ke `python`
+3. **Node.js** - jika Python tidak ada
+4. **Fallback** - membuka `index.html` langsung di browser default
 
 > 💡 Server berjalan di `http://localhost:<port>` dan browser otomatis terbuka.
 
@@ -83,7 +83,7 @@ xdg-open index.html    # Linux
 
 ### Via GitHub Pages
 
-1. Buka **Settings** → **Pages** di repository ini
+1. Buka **Settings** -> **Pages** di repository ini
 2. Set source ke branch `main`, folder `/root`
 3. GitHub akan menyediakan URL publik otomatis
 
@@ -106,9 +106,9 @@ xdg-open index.html    # Linux
 
 Perhitungan mengacu pada kaidah umum ilmu faraidh:
 
-- **Al-Qur'an** — Q.S. An-Nisa: 7, 11, 12, 176
-- **Hadits Nabi ﷺ** — riwayat Bukhari & Muslim tentang pembagian waris
-- **Ijma' Ulama** — kesepakatan fukaha empat mazhab pada kasus-kasus umum
+- **Al-Qur'an** - Q.S. An-Nisa: 7, 11, 12, 176
+- **Hadits Nabi ﷺ** - riwayat Bukhari & Muslim tentang pembagian waris
+- **Ijma' Ulama** - kesepakatan fukaha empat mazhab pada kasus-kasus umum
 
 > ⚠️ Untuk kasus khusus (beda mazhab, wasiat tertentu, sengketa hukum), selalu konsultasikan kepada ulama atau lembaga fatwa yang berwenang.
 
@@ -128,7 +128,7 @@ Untuk memahami mekanisme perhitungan secara mendalam, lihat dokumentasi: [Mekani
 - [ ] Visualisasi diagram pembagian harta
 - [ ] Dukungan multi-bahasa (ID / EN / AR)
 - [ ] Export hasil ke PDF
-- [ ] Integrasi XAI — penjelasan *kenapa* bagian tersebut dihitung demikian
+- [ ] Integrasi XAI - penjelasan *kenapa* bagian tersebut dihitung demikian
 
 ---
 
@@ -140,7 +140,7 @@ Kontribusi sangat welcome! Terutama untuk:
 - Penambahan antarmuka yang lebih interaktif
 
 ```bash
-# Fork → buat branch baru → commit → Pull Request
+# Fork -> buat branch baru -> commit -> Pull Request
 git checkout -b fitur/nama-fitur
 git commit -m "feat: tambahkan fitur X"
 git push origin fitur/nama-fitur
@@ -156,7 +156,7 @@ git push origin fitur/nama-fitur
 
 ## 📄 Lisensi
 
-Proyek ini dilisensikan di bawah **MIT License** — bebas digunakan, dimodifikasi, dan didistribusikan dengan atribusi yang sesuai.
+Proyek ini dilisensikan di bawah **MIT License**, bebas digunakan, dimodifikasi, dan didistribusikan dengan atribusi yang sesuai.
 
 > "Sesungguhnya Allah memerintahkan kamu untuk menunaikan amanah kepada yang berhak menerimanya..."
-> — Q.S. An-Nisa: 58
+> - Q.S. An-Nisa: 58
