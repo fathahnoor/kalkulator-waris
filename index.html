@@ -147,6 +147,55 @@
 
     .icon-button { background: transparent; justify-content: center; min-width: 40px; padding: 8px; }
 
+    /* ===== LANGUAGE TOGGLE ===== */
+    .lang-toggle {
+      align-items: center;
+      background: transparent;
+      border: 1px solid var(--outline);
+      border-radius: 999px;
+      cursor: pointer;
+      display: inline-flex;
+      gap: 6px;
+      min-height: 34px;
+      padding: 4px 10px;
+      transition: 160ms ease;
+    }
+    .lang-toggle:hover { border-color: var(--primary); background: var(--surface-mid); }
+    .lang-toggle-text {
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: color 160ms ease;
+    }
+    .lang-toggle .lang-active { color: var(--primary); }
+    .lang-toggle-slider {
+      background: var(--surface-card);
+      border-radius: 999px;
+      box-shadow: var(--inner-input);
+      display: inline-flex;
+      height: 18px;
+      padding: 2px;
+      width: 32px;
+    }
+    .lang-toggle-thumb {
+      background: var(--outline);
+      border-radius: 999px;
+      display: block;
+      height: 14px;
+      transition: transform 200ms ease, background 200ms ease;
+      width: 14px;
+    }
+    .lang-toggle.lang-en .lang-toggle-thumb {
+      background: var(--primary);
+      transform: translateX(14px);
+    }
+    .lang-toggle.lang-en .lang-toggle-text:last-child,
+    .lang-toggle:not(.lang-en) .lang-toggle-text:first-child {
+      color: var(--primary);
+    }
+
     .shell { margin: 0 auto; max-width: 1120px; padding: 40px 24px 88px; }
 
     .hero {
@@ -1056,61 +1105,68 @@
   </style>
 </head>
 <body>
-  <a class="skip-nav" href="#calculator">Lompat ke kalkulator</a>
-  <a class="skip-nav" href="#calculator">Lompat ke kalkulator</a>
+  <a class="skip-nav" href="#calculator" data-i18n="skip_nav">Lompat ke kalkulator</a>
+  <a class="skip-nav" href="#calculator" data-i18n="skip_nav">Lompat ke kalkulator</a>
   <header class="topbar">
     <div class="topbar-inner">
       <a class="brand" href="#calculator" aria-label="FaraidPro">
         <span class="material-symbols-outlined" aria-hidden="true">balance</span>
         <span>FaraidPro</span>
       </a>
-      <nav class="nav-links" aria-label="Navigasi">
-        <a href="#calculator"><span class="material-symbols-outlined" aria-hidden="true">calculate</span>Hitung</a>
-        <a href="#hasil"><span class="material-symbols-outlined" aria-hidden="true">pie_chart</span>Hasil</a>
-        <a href="#aturan"><span class="material-symbols-outlined" aria-hidden="true">menu_book</span>Aturan</a>
-        <a href="#" id="printBtn" class="disabled"><span class="material-symbols-outlined" aria-hidden="true">print</span>Cetak</a>
+      <nav class="nav-links" aria-label="Navigasi" data-i18n="nav_label" data-i18n-attr="aria-label">
+        <a href="#calculator"><span class="material-symbols-outlined" aria-hidden="true">calculate</span><span data-i18n="nav_hitung">Hitung</span></a>
+        <a href="#hasil"><span class="material-symbols-outlined" aria-hidden="true">pie_chart</span><span data-i18n="nav_hasil">Hasil</span></a>
+        <a href="#aturan"><span class="material-symbols-outlined" aria-hidden="true">menu_book</span><span data-i18n="nav_aturan">Aturan</span></a>
+        <a href="#" id="printBtn" class="disabled"><span class="material-symbols-outlined" aria-hidden="true">print</span><span data-i18n="nav_cetak">Cetak</span></a>
         <a href="#" id="shareBtn" class="disabled" title="Bagikan hasil"><span class="material-symbols-outlined" aria-hidden="true">share</span></a>
-        <button class="icon-button" type="button" id="themeToggle" aria-label="Ganti tema">
+        <button class="icon-button" type="button" id="themeToggle" aria-label="Ganti tema" data-i18n="nav_ganti_tema" data-i18n-attr="aria-label">
           <span class="material-symbols-outlined" aria-hidden="true">dark_mode</span>
+        </button>
+        <button class="lang-toggle" type="button" id="langToggle" aria-label="Switch language">
+          <span class="lang-toggle-text">ID</span>
+          <span class="lang-toggle-slider">
+            <span class="lang-toggle-thumb"></span>
+          </span>
+          <span class="lang-toggle-text">EN</span>
         </button>
       </nav>
       <div class="dropdown-wrap">
-        <button class="icon-button" type="button" id="loadSample" aria-label="Contoh kasus">
+        <button class="icon-button" type="button" id="loadSample" aria-label="Contoh kasus" data-i18n="sample_label" data-i18n-attr="aria-label">
           <span class="material-symbols-outlined" aria-hidden="true">science</span>
         </button>
         <div class="dropdown-menu hidden" id="sampleMenu">
           <button class="dropdown-item" type="button" data-sample="standard">
             <span class="material-symbols-outlined" aria-hidden="true">family_restroom</span>
-            <span>Keluarga standar<small>Suami + Ibu + Ayah + 2 Anak</small></span>
+            <span data-i18n="sample_standard">Keluarga standar<small data-i18n="sample_standard_hint">Suami + Ibu + Ayah + 2 Anak</small></span>
           </button>
           <button class="dropdown-item" type="button" data-sample="gharawain">
             <span class="material-symbols-outlined" aria-hidden="true">stars</span>
-            <span>Kasus Gharawain<small>Suami + Ibu + Ayah tanpa anak</small></span>
+            <span data-i18n="sample_gharawain">Kasus Gharawain<small data-i18n="sample_gharawain_hint">Suami + Ibu + Ayah tanpa anak</small></span>
           </button>
           <button class="dropdown-item" type="button" data-sample="grandfather">
             <span class="material-symbols-outlined" aria-hidden="true">elderly</span>
-            <span>Kakek + Saudara<small>Kakek bersama saudara perempuan</small></span>
+            <span data-i18n="sample_grandfather">Kakek + Saudara<small data-i18n="sample_grandfather_hint">Kakek bersama saudara perempuan</small></span>
           </button>
           <div class="dropdown-divider"></div>
           <button class="dropdown-item" type="button" data-sample="polygamy">
             <span class="material-symbols-outlined" aria-hidden="true">group</span>
-            <span>Poligami<small>2 Istri + Anak-anak</small></span>
+            <span data-i18n="sample_polygamy">Poligami<small data-i18n="sample_polygamy_hint">2 Istri + Anak-anak</small></span>
           </button>
           <button class="dropdown-item" type="button" data-sample="sisters_only">
             <span class="material-symbols-outlined" aria-hidden="true">woman</span>
-            <span>Hanya Saudara Perempuan<small>Kasus kalalah tanpa keturunan</small></span>
+            <span data-i18n="sample_sisters">Hanya Saudara Perempuan<small data-i18n="sample_sisters_hint">Kasus kalalah tanpa keturunan</small></span>
           </button>
           <button class="dropdown-item" type="button" data-sample="aul">
             <span class="material-symbols-outlined" aria-hidden="true">sync_problem</span>
-            <span>Kasus Aul<small>Total furudh melebihi harta</small></span>
+            <span data-i18n="sample_aul">Kasus Aul<small data-i18n="sample_aul_hint">Total furudh melebihi harta</small></span>
           </button>
           <button class="dropdown-item" type="button" data-sample="radd">
             <span class="material-symbols-outlined" aria-hidden="true">autorenew</span>
-            <span>Kasus Radd<small>Sisa harta dikembalikan</small></span>
+            <span data-i18n="sample_radd">Kasus Radd<small data-i18n="sample_radd_hint">Sisa harta dikembalikan</small></span>
           </button>
           <button class="dropdown-item" type="button" data-sample="single_daughter">
             <span class="material-symbols-outlined" aria-hidden="true">girl</span>
-            <span>Anak Perempuan Tunggal<small>1/2 tanpa anak laki-laki</small></span>
+            <span data-i18n="sample_daughter">Anak Perempuan Tunggal<small data-i18n="sample_daughter_hint">1/2 tanpa anak laki-laki</small></span>
           </button>
         </div>
       </div>
@@ -1120,28 +1176,28 @@
   <main class="shell">
     <section class="hero" aria-labelledby="page-title">
       <div>
-        <p class="eyebrow">Ilmu Faraid • KHI Indonesia • Perhitungan lokal</p>
-        <h1 id="page-title">Kalkulator Waris Islam</h1>
-        <p class="hero-copy">Masukkan harta siap bagi dan komposisi keluarga, lalu lihat bagian ahli waris, alasan hijab, serta penanganan kasus aul, radd, gharawain, musytarakah, akdariyyah, kakek bersama saudara, dan dzawil arham.</p>
+        <p class="eyebrow" data-i18n="hero_eyebrow">Ilmu Faraid • KHI Indonesia • Perhitungan lokal</p>
+        <h1 id="page-title" data-i18n="hero_title">Kalkulator Waris Islam</h1>
+        <p class="hero-copy" data-i18n="hero_desc">Masukkan harta siap bagi dan komposisi keluarga, lalu lihat bagian ahli waris, alasan hijab, serta penanganan kasus aul, radd, gharawain, musytarakah, akdariyyah, kakek bersama saudara, dan dzawil arham.</p>
         <button class="hero-sample-btn" type="button" id="heroSampleBtn">
           <span class="material-symbols-outlined" aria-hidden="true">science</span>
-          Coba Contoh Kasus
+          <span data-i18n="hero_sample_btn">Coba Contoh Kasus</span>
         </button>
       </div>
       <div class="status-card" aria-live="polite">
         <strong id="netHero">Rp0</strong>
-        <span>Harta waris bersih yang akan dibagi</span>
+        <span data-i18n="hero_net_label">Harta waris bersih yang akan dibagi</span>
       </div>
     </section>
 
     <div class="disclaimer-banner">
       <span class="material-symbols-outlined" aria-hidden="true">gavel</span>
-      <span><strong>Simulasi awal:</strong> Hasil ini bersifat informatif dan bukan pengganti konsultasi ahli faraid atau putusan pengadilan.</span>
+      <span id="disclaimerText"><strong>Simulasi awal:</strong> Hasil ini bersifat informatif dan bukan pengganti konsultasi ahli faraid atau putusan pengadilan.</span>
     </div>
-    <div class="steps" aria-label="Alur kalkulator">
-      <div class="step-pill" id="step1"><b>1</b><span>Harta</span></div>
-      <div class="step-pill" id="step2"><b>2</b><span>Ahli waris</span></div>
-      <div class="step-pill" id="step3"><b>3</b><span>Hasil</span></div>
+    <div class="steps" aria-label="Alur kalkulator" data-i18n="steps_label" data-i18n-attr="aria-label">
+      <div class="step-pill" id="step1"><b>1</b><span data-i18n="step1">Harta</span></div>
+      <div class="step-pill" id="step2"><b>2</b><span data-i18n="step2">Ahli waris</span></div>
+      <div class="step-pill" id="step3"><b>3</b><span data-i18n="step3">Hasil</span></div>
     </div>
 
     <div class="layout">
@@ -1150,23 +1206,23 @@
           <section class="section-block" aria-labelledby="section-pewaris">
             <div class="section-head">
               <div>
-                <h2 id="section-pewaris">Data Pewaris dan Harta</h2>
-                <p>Wasiat dihitung setelah biaya tajhiz dan hutang.</p>
+                <h2 id="section-pewaris" data-i18n="section_pewaris">Data Pewaris dan Harta</h2>
+                <p data-i18n="pewaris_desc">Wasiat dihitung setelah biaya tajhiz dan hutang.</p>
               </div>
-              <span class="soft-badge tip-wrap" tabindex="0" aria-label="Data diproses di perangkat Anda, tidak dikirim ke server">
-                <span class="material-symbols-outlined" aria-hidden="true">lock</span>Lokal
-                <span class="tip-text">Data diproses di perangkat Anda</span>
+              <span class="soft-badge tip-wrap" tabindex="0" aria-label="Data diproses di perangkat Anda, tidak dikirim ke server" data-i18n-attr="aria-label" data-i18n="lokal_tooltip">
+                <span class="material-symbols-outlined" aria-hidden="true">lock</span><span data-i18n="lokal_badge">Lokal</span>
+                <span class="tip-text" data-i18n="lokal_tooltip">Data diproses di perangkat Anda</span>
               </span>
             </div>
 
-            <div class="choice-grid" role="radiogroup" aria-label="Jenis kelamin pewaris">
+            <div class="choice-grid" role="radiogroup" aria-label="Jenis kelamin pewaris" data-i18n="gender_label" data-i18n-attr="aria-label">
               <button class="choice-button" type="button" data-gender="laki" role="radio" aria-checked="false">
                 <span class="material-symbols-outlined" aria-hidden="true">man</span>
-                <strong>Laki-laki</strong>
+                <strong data-i18n="gender_laki">Laki-laki</strong>
               </button>
               <button class="choice-button" type="button" data-gender="perempuan" role="radio" aria-checked="false">
                 <span class="material-symbols-outlined" aria-hidden="true">woman</span>
-                <strong>Perempuan</strong>
+                <strong data-i18n="gender_perempuan">Perempuan</strong>
               </button>
             </div>
             <input type="hidden" id="deceasedGender" value="" required />
@@ -1174,27 +1230,27 @@
             <div class="field-error" id="grossEstateError" style="margin-top: 22px;"></div>
             <div class="field-grid" style="margin-top: 8px;">
               <div class="field">
-                <label for="grossEstate">Harta peninggalan</label>
-                <input class="money-input" id="grossEstate" inputmode="numeric" placeholder="Contoh: 500.000.000" value="0" />
+                <label for="grossEstate" data-i18n="estate_label">Harta peninggalan</label>
+                <input class="money-input" id="grossEstate" inputmode="numeric" placeholder="Contoh: 500.000.000" value="0" data-i18n="estate_placeholder" data-i18n-attr="placeholder" />
               </div>
               <div class="field">
-                <label for="funeralCost">Biaya tajhiz</label>
-                <input class="money-input" id="funeralCost" inputmode="numeric" placeholder="Contoh: 10.000.000" value="0" />
+                <label for="funeralCost" data-i18n="funeral_label">Biaya tajhiz</label>
+                <input class="money-input" id="funeralCost" inputmode="numeric" placeholder="Contoh: 10.000.000" value="0" data-i18n="funeral_placeholder" data-i18n-attr="placeholder" />
               </div>
               <div class="field">
-                <label for="debts">Hutang pewaris</label>
-                <input class="money-input" id="debts" inputmode="numeric" placeholder="Contoh: 5.000.000" value="0" />
+                <label for="debts" data-i18n="debts_label">Hutang pewaris</label>
+                <input class="money-input" id="debts" inputmode="numeric" placeholder="Contoh: 5.000.000" value="0" data-i18n="debts_placeholder" data-i18n-attr="placeholder" />
               </div>
               <div class="field">
-                <label for="willAmount">Wasiat</label>
-                <input class="money-input" id="willAmount" inputmode="numeric" placeholder="Contoh: 50.000.000" value="0" />
+                <label for="willAmount" data-i18n="will_label">Wasiat</label>
+                <input class="money-input" id="willAmount" inputmode="numeric" placeholder="Contoh: 50.000.000" value="0" data-i18n="will_placeholder" data-i18n-attr="placeholder" />
               </div>
             </div>
 
             <label class="toggle-row" style="margin-top: 14px;">
               <span>
-                Wasiat lebih dari sepertiga disetujui ahli waris
-                <small>Jika tidak aktif, kelebihan wasiat otomatis dibatasi.</small>
+                <span data-i18n="will_consent">Wasiat lebih dari sepertiga disetujui ahli waris</span>
+                <small data-i18n="will_consent_hint">Jika tidak aktif, kelebihan wasiat otomatis dibatasi.</small>
               </span>
               <span style="display:flex;align-items:center;gap:8px;">
                 <span class="switch-status inactive" id="willConsentStatus">Nonaktif</span>
@@ -1207,11 +1263,11 @@
 
             <div class="net-strip">
               <div>
-                <span>Harta waris bersih</span>
+                <span data-i18n="net_estate">Harta waris bersih</span>
                 <strong id="netEstate">Rp0</strong>
               </div>
               <div>
-                <span>Wasiat yang dipakai</span>
+                <span data-i18n="will_used">Wasiat yang dipakai</span>
                 <strong id="allowedWill">Rp0</strong>
               </div>
             </div>
@@ -1220,10 +1276,10 @@
           <section class="section-block" aria-labelledby="section-ahli-waris">
             <div class="section-head">
               <div>
-                <h2 id="section-ahli-waris">Ahli Waris</h2>
-                <p>Isi jumlah yang hidup saat pewaris wafat dan tidak terkena penghalang mutlak.</p>
+                <h2 id="section-ahli-waris" data-i18n="section_ahli_waris">Ahli Waris</h2>
+                <p data-i18n="ahli_waris_desc">Isi jumlah yang hidup saat pewaris wafat dan tidak terkena penghalang mutlak.</p>
               </div>
-              <span class="soft-badge"><span class="material-symbols-outlined" aria-hidden="true">groups</span>Nasab & Nikah</span>
+              <span class="soft-badge"><span class="material-symbols-outlined" aria-hidden="true">groups</span><span data-i18n="nasab_badge">Nasab & Nikah</span></span>
             </div>
 
             <div class="heir-groups" id="heirGroups"></div>
@@ -1232,13 +1288,13 @@
           <section class="section-block accordion" aria-labelledby="section-opsi">
             <div class="section-head">
               <div>
-                <h2 id="section-opsi">Opsi Ijtihad</h2>
-                <p>Default mengikuti pendapat jumhur yang umum dipakai di Indonesia.</p>
+                <h2 id="section-opsi" data-i18n="section_opsi">Opsi Ijtihad</h2>
+                <p data-i18n="opsi_desc">Default mengikuti pendapat jumhur yang umum dipakai di Indonesia.</p>
               </div>
-              <span class="soft-badge"><span class="material-symbols-outlined" aria-hidden="true">tune</span>Lanjutan</span>
+              <span class="soft-badge"><span class="material-symbols-outlined" aria-hidden="true">tune</span><span data-i18n="opsi_badge">Lanjutan</span></span>
             </div>
             <button class="accordion-trigger" type="button" id="accordionTrigger" aria-expanded="false" aria-controls="accordionContent">
-              <span><span class="material-symbols-outlined" aria-hidden="true">tune</span> Pengaturan Lanjutan</span>
+              <span><span class="material-symbols-outlined" aria-hidden="true">tune</span> <span data-i18n="accordion_label">Pengaturan Lanjutan</span></span>
               <span class="material-symbols-outlined" aria-hidden="true">expand_more</span>
             </button>
             <div class="accordion-content" id="accordionContent">
@@ -1247,58 +1303,58 @@
             <div class="toggle-stack">
               <label class="toggle-row">
                 <span>
-                  Gharawain: ibu mendapat sepertiga sisa
-                  <small>Kasus suami/istri + ibu + ayah.</small>
+                  <span data-i18n="opt_gharawain">Gharawain: ibu mendapat sepertiga sisa</span>
+                  <small data-i18n="opt_gharawain_hint">Kasus suami/istri + ibu + ayah.</small>
                 </span>
                 <span class="switch">
                   <input type="checkbox" id="optGharawain" checked />
                   <i aria-hidden="true"></i>
                 </span>
-                <span class="switch-status active" id="optGharawainStatus">Aktif</span>
+                <span class="switch-status active" id="optGharawainStatus" data-i18n="switch_active">Aktif</span>
               </label>
               <label class="toggle-row">
                 <span>
-                  Musytarakah: saudara kandung ikut bagian seibu
-                  <small>Kasus suami + ibu/nenek + saudara seibu + saudara kandung.</small>
+                  <span data-i18n="opt_musytarakah">Musytarakah: saudara kandung ikut bagian seibu</span>
+                  <small data-i18n="opt_musytarakah_hint">Kasus suami + ibu/nenek + saudara seibu + saudara kandung.</small>
                 </span>
                 <span class="switch">
                   <input type="checkbox" id="optMusytarakah" checked />
                   <i aria-hidden="true"></i>
                 </span>
-                <span class="switch-status active" id="optMusytarakahStatus">Aktif</span>
+                <span class="switch-status active" id="optMusytarakahStatus" data-i18n="switch_active">Aktif</span>
               </label>
               <label class="toggle-row">
                 <span>
-                  Radd untuk suami/istri saat tidak ada nasab
-                  <small>Minoritas; default jumhur tidak memberi radd kepada pasangan.</small>
+                  <span data-i18n="opt_spouse_radd">Radd untuk suami/istri saat tidak ada nasab</span>
+                  <small data-i18n="opt_spouse_radd_hint">Minoritas; default jumhur tidak memberi radd kepada pasangan.</small>
                 </span>
                 <span class="switch">
                   <input type="checkbox" id="optSpouseRadd" />
                   <i aria-hidden="true"></i>
                 </span>
-                <span class="switch-status inactive" id="optSpouseRaddStatus">Nonaktif</span>
+                <span class="switch-status inactive" id="optSpouseRaddStatus" data-i18n="switch_inactive">Nonaktif</span>
               </label>
               <label class="toggle-row">
                 <span>
-                  Kakek bersama saudara (Zaid bin Tsabit)
-                  <small>Jika NONAKTIF: kakek menghijab saudara (pendapat Abu Bakar/Hanafi). Jika AKTIF: kakek bersama saudara dengan perbandingan terbaik (Zaid/Syafii).</small>
+                  <span data-i18n="opt_grandfather">Kakek bersama saudara (Zaid bin Tsabit)</span>
+                  <small data-i18n="opt_grandfather_hint">Jika NONAKTIF: kakek menghijab saudara (pendapat Abu Bakar/Hanafi). Jika AKTIF: kakek bersama saudara dengan perbandingan terbaik (Zaid/Syafii).</small>
                 </span>
                 <span class="switch">
                   <input type="checkbox" id="optGrandfatherSiblings" checked />
                   <i aria-hidden="true"></i>
                 </span>
-                <span class="switch-status active" id="optGrandfatherSiblingsStatus">Aktif</span>
+                <span class="switch-status active" id="optGrandfatherSiblingsStatus" data-i18n="switch_active">Aktif</span>
               </label>
               <label class="toggle-row">
                 <span>
-                  Dzawil Arham berhak waris
-                  <small>Jika NONAKTIF: sisa tanpa ahli waris ke Baitul Mal (Syafii). Jika AKTIF: kerabat non-ashabah berhak waris (Hanafi/Hambali).</small>
+                  <span data-i18n="opt_dzawil_arham">Dzawil Arham berhak waris</span>
+                  <small data-i18n="opt_dzawil_arham_hint">Jika NONAKTIF: sisa tanpa ahli waris ke Baitul Mal (Syafii). Jika AKTIF: kerabat non-ashabah berhak waris (Hanafi/Hambali).</small>
                 </span>
                 <span class="switch">
                   <input type="checkbox" id="optDzawilArham" />
                   <i aria-hidden="true"></i>
                 </span>
-                <span class="switch-status inactive" id="optDzawilArhamStatus">Nonaktif</span>
+                <span class="switch-status inactive" id="optDzawilArhamStatus" data-i18n="switch_inactive">Nonaktif</span>
               </label>
             </div>
             </div>
@@ -1307,10 +1363,10 @@
             <div class="actions">
               <button class="ghost-button" type="reset">
                 <span class="material-symbols-outlined" aria-hidden="true">restart_alt</span>
-                Reset
+                <span data-i18n="btn_reset">Reset</span>
               </button>
               <button class="primary-button" type="submit">
-                Hitung Waris
+                <span data-i18n="btn_hitung">Hitung Waris</span>
                 <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
               </button>
             </div>
@@ -1321,13 +1377,13 @@
       <aside class="clay-card result-panel" id="hasil" aria-live="polite">
         <div class="card-body">
           <div class="result-head">
-            <h2>Hasil Pembagian</h2>
-            <span class="soft-badge" id="caseBadge"><span class="material-symbols-outlined" aria-hidden="true">pending</span>Belum dihitung</span>
+            <h2 data-i18n="result_title">Hasil Pembagian</h2>
+            <span class="soft-badge" id="caseBadge"><span class="material-symbols-outlined" aria-hidden="true">pending</span><span data-i18n="result_not_calc">Belum dihitung</span></span>
           </div>
           <div id="resultContent" class="empty-state">
             <span class="material-symbols-outlined" aria-hidden="true">balance</span>
-            <strong>Hasil akan muncul di sini</strong>
-            <span>Isi data harta dan ahli waris di atas, lalu klik <strong>Hitung Waris</strong> untuk melihat hasilnya.</span>
+            <strong data-i18n="result_empty_title">Hasil akan muncul di sini</strong>
+            <span data-i18n="result_empty_desc">Isi data harta dan ahli waris di atas, lalu klik <strong>Hitung Waris</strong> untuk melihat hasilnya.</span>
           </div>
         </div>
       </aside>
@@ -1336,36 +1392,36 @@
     <section class="rules" id="aturan" aria-labelledby="rules-title">
       <div class="section-head">
         <div>
-          <h2 id="rules-title">Aturan Inti</h2>
-          <p>Ringkasan dari dokumen basis pengetahuan Perplexity di folder proyek.</p>
+          <h2 id="rules-title" data-i18n="rules_title">Aturan Inti</h2>
+          <p data-i18n="rules_desc">Ringkasan dari dokumen basis pengetahuan di folder proyek.</p>
         </div>
       </div>
       <div class="rule-grid">
         <article class="rule-card">
           <span class="material-symbols-outlined" aria-hidden="true">receipt_long</span>
-          <h3>Urutan Tirkah</h3>
-          <p>Harta dikurangi biaya tajhiz, hutang, lalu wasiat maksimal sepertiga sebelum dibagikan.</p>
+          <h3 data-i18n="rule_tirkah">Urutan Tirkah</h3>
+          <p data-i18n="rule_tirkah_desc">Harta dikurangi biaya tajhiz, hutang, lalu wasiat maksimal sepertiga sebelum dibagikan.</p>
         </article>
         <article class="rule-card">
           <span class="material-symbols-outlined" aria-hidden="true">account_tree</span>
-          <h3>Furudh dan Ashabah</h3>
-          <p>Bagian pasti didahulukan; sisa diberikan kepada ashabah terdekat menurut urutan nasab.</p>
+          <h3 data-i18n="rule_furudh">Furudh dan Ashabah</h3>
+          <p data-i18n="rule_furudh_desc">Bagian pasti didahulukan; sisa diberikan kepada ashabah terdekat menurut urutan nasab.</p>
         </article>
         <article class="rule-card">
           <span class="material-symbols-outlined" aria-hidden="true">sync_problem</span>
-          <h3>Aul dan Radd</h3>
-          <p>Jika bagian pasti melebihi harta terjadi aul; jika ada sisa tanpa ashabah terjadi radd.</p>
+          <h3 data-i18n="rule_aul_radd">Aul dan Radd</h3>
+          <p data-i18n="rule_aul_radd_desc">Jika bagian pasti melebihi harta terjadi aul; jika ada sisa tanpa ashabah terjadi radd.</p>
         </article>
       </div>
     </section>
 
-    <div style="text-align:center;margin-top:20px"><a class="ghost-button" href="https://github.com/fathahnoor/kalkulator-waris/blob/main/Mekanisme%20Perhitungan%20Waris%20Islam%20(Ilmu%20Faraid)%20%E2%80%94%20Panduan%20Komprehensif%20untuk%20Pengembangan%20Aplikasi.md" target="_blank" rel="noopener noreferrer" style="text-decoration:none;display:inline-flex;align-items:center;gap:8px;"><span class="material-symbols-outlined" aria-hidden="true">menu_book</span> Baca Panduan Lengkap Mekanisme Perhitungan</a></div><footer>
+    <div style="text-align:center;margin-top:20px"><a class="ghost-button" href="https://github.com/fathahnoor/kalkulator-waris/blob/main/Mekanisme%20Perhitungan%20Waris%20Islam%20(Ilmu%20Faraid)%20%E2%80%94%20Panduan%20Komprehensif%20untuk%20Pengembangan%20Aplikasi.md" target="_blank" rel="noopener noreferrer" style="text-decoration:none;display:inline-flex;align-items:center;gap:8px;"><span class="material-symbols-outlined" aria-hidden="true">menu_book</span> <span data-i18n="guide_link">Baca Panduan Lengkap Mekanisme Perhitungan</span></a></div><footer data-i18n="footer_text">
       FaraidPro memproses data di browser. Untuk sengketa, harta bersama, ahli waris pengganti, atau penghalang waris, gunakan hasil ini sebagai simulasi awal.
     </footer>
     <div class="fab-container">
     <button class="fab" type="button" id="fabBtn">
       <span class="material-symbols-outlined" aria-hidden="true">calculate</span>
-      Hitung Waris
+      <span data-i18n="fab_hitung">Hitung Waris</span>
     </button>
   </div>
 
@@ -1408,29 +1464,29 @@
     const ONE = F(1);
 
     const HEIR_FIELDS = [
-      { key: "husband", label: "Suami", hint: "pasangan pewaris perempuan", icon: "male", iconColor: "male", max: 1, group: "Pasangan" },
-      { key: "wives", label: "Istri", hint: "maksimal 4 istri sah", icon: "female", iconColor: "female", max: 4, group: "Pasangan" },
-      { key: "father", label: "Ayah", hint: "orang tua laki-laki", icon: "elderly", iconColor: "male", max: 1, isBinary: true, group: "Orang tua" },
-      { key: "mother", label: "Ibu", hint: "orang tua perempuan", icon: "elderly_woman", iconColor: "female", max: 1, isBinary: true, group: "Orang tua" },
-      { key: "son", label: "Anak laki-laki", hint: "anak kandung", icon: "boy", iconColor: "male", max: 30, group: "Anak" },
-      { key: "daughter", label: "Anak perempuan", hint: "anak kandung", icon: "girl", iconColor: "female", max: 30, group: "Anak" },
-      { key: "grandson", label: "Cucu laki-laki", hint: "dari anak laki-laki", icon: "boy", iconColor: "male", max: 30, group: "Cucu dan leluhur" },
-      { key: "granddaughter", label: "Cucu perempuan", hint: "dari anak laki-laki", icon: "girl", iconColor: "female", max: 30, group: "Cucu dan leluhur" },
-      { key: "grandfather", label: "Kakek", hint: "ayah dari ayah", icon: "elderly", iconColor: "male", max: 1, isBinary: true, group: "Cucu dan leluhur" },
-      { key: "grandmother_maternal", label: "Nenek jalur ibu", hint: "ibu dari ibu", icon: "elderly_woman", iconColor: "female", max: 1, isBinary: true, group: "Cucu dan leluhur" },
-      { key: "grandmother_paternal", label: "Nenek jalur ayah", hint: "ibu dari ayah", icon: "elderly_woman", iconColor: "female", max: 1, isBinary: true, group: "Cucu dan leluhur" },
-      { key: "full_brother", label: "Saudara laki-laki kandung", hint: "ayah dan ibu sama", icon: "man", iconColor: "male", max: 30, group: "Saudara" },
-      { key: "full_sister", label: "Saudara perempuan kandung", hint: "ayah dan ibu sama", icon: "woman", iconColor: "female", max: 30, group: "Saudara" },
-      { key: "paternal_brother", label: "Saudara laki-laki seayah", hint: "ayah sama", icon: "man", iconColor: "male", max: 30, group: "Saudara" },
-      { key: "paternal_sister", label: "Saudara perempuan seayah", hint: "ayah sama", icon: "woman", iconColor: "female", max: 30, group: "Saudara" },
-      { key: "maternal_brother", label: "Saudara laki-laki seibu", hint: "ibu sama", icon: "man", iconColor: "male", max: 30, group: "Saudara seibu" },
-      { key: "maternal_sister", label: "Saudara perempuan seibu", hint: "ibu sama", icon: "woman", iconColor: "female", max: 30, group: "Saudara seibu" },
-      { key: "full_nephew", label: "Keponakan laki-laki kandung", hint: "anak saudara kandung laki-laki", icon: "person", iconColor: "neutral", max: 30, group: "Ashabah lanjutan" },
-      { key: "paternal_nephew", label: "Keponakan laki-laki seayah", hint: "anak saudara seayah laki-laki", icon: "person", iconColor: "neutral", max: 30, group: "Ashabah lanjutan" },
-      { key: "full_uncle", label: "Paman kandung", hint: "saudara ayah sekandung", icon: "man", iconColor: "male", max: 30, group: "Ashabah lanjutan" },
-      { key: "paternal_uncle", label: "Paman seayah", hint: "saudara ayah seayah", icon: "man", iconColor: "male", max: 30, group: "Ashabah lanjutan" },
-      { key: "full_cousin", label: "Anak paman kandung", hint: "laki-laki", icon: "person", iconColor: "neutral", max: 30, group: "Ashabah lanjutan" },
-      { key: "paternal_cousin", label: "Anak paman seayah", hint: "laki-laki", icon: "person", iconColor: "neutral", max: 30, group: "Ashabah lanjutan" }
+      { key: "husband", label: "Suami", i18nKey: "heir_husband", i18nHintKey: "heir_husband_hint", hint: "pasangan pewaris perempuan", icon: "male", iconColor: "male", max: 1, group: "Pasangan", groupKey: "heir_group_pasangan" },
+      { key: "wives", label: "Istri", i18nKey: "heir_wives", i18nHintKey: "heir_wives_hint", hint: "maksimal 4 istri sah", icon: "female", iconColor: "female", max: 4, group: "Pasangan", groupKey: "heir_group_pasangan" },
+      { key: "father", label: "Ayah", i18nKey: "heir_father", i18nHintKey: "heir_father_hint", hint: "orang tua laki-laki", icon: "elderly", iconColor: "male", max: 1, isBinary: true, group: "Orang tua", groupKey: "heir_group_orangtua" },
+      { key: "mother", label: "Ibu", i18nKey: "heir_mother", i18nHintKey: "heir_mother_hint", hint: "orang tua perempuan", icon: "elderly_woman", iconColor: "female", max: 1, isBinary: true, group: "Orang tua", groupKey: "heir_group_orangtua" },
+      { key: "son", label: "Anak laki-laki", i18nKey: "heir_son", i18nHintKey: "heir_son_hint", hint: "anak kandung", icon: "boy", iconColor: "male", max: 30, group: "Anak", groupKey: "heir_group_anak" },
+      { key: "daughter", label: "Anak perempuan", i18nKey: "heir_daughter", i18nHintKey: "heir_daughter_hint", hint: "anak kandung", icon: "girl", iconColor: "female", max: 30, group: "Anak", groupKey: "heir_group_anak" },
+      { key: "grandson", label: "Cucu laki-laki", i18nKey: "heir_grandson", i18nHintKey: "heir_grandson_hint", hint: "dari anak laki-laki", icon: "boy", iconColor: "male", max: 30, group: "Cucu dan leluhur", groupKey: "heir_group_cucu" },
+      { key: "granddaughter", label: "Cucu perempuan", i18nKey: "heir_granddaughter", i18nHintKey: "heir_granddaughter_hint", hint: "dari anak laki-laki", icon: "girl", iconColor: "female", max: 30, group: "Cucu dan leluhur", groupKey: "heir_group_cucu" },
+      { key: "grandfather", label: "Kakek", i18nKey: "heir_grandfather", i18nHintKey: "heir_grandfather_hint", hint: "ayah dari ayah", icon: "elderly", iconColor: "male", max: 1, isBinary: true, group: "Cucu dan leluhur", groupKey: "heir_group_cucu" },
+      { key: "grandmother_maternal", label: "Nenek jalur ibu", i18nKey: "heir_grandmother_maternal", i18nHintKey: "heir_grandmother_maternal_hint", hint: "ibu dari ibu", icon: "elderly_woman", iconColor: "female", max: 1, isBinary: true, group: "Cucu dan leluhur", groupKey: "heir_group_cucu" },
+      { key: "grandmother_paternal", label: "Nenek jalur ayah", i18nKey: "heir_grandmother_paternal", i18nHintKey: "heir_grandmother_paternal_hint", hint: "ibu dari ayah", icon: "elderly_woman", iconColor: "female", max: 1, isBinary: true, group: "Cucu dan leluhur", groupKey: "heir_group_cucu" },
+      { key: "full_brother", label: "Saudara laki-laki kandung", i18nKey: "heir_full_brother", i18nHintKey: "heir_full_brother_hint", hint: "ayah dan ibu sama", icon: "man", iconColor: "male", max: 30, group: "Saudara", groupKey: "heir_group_saudara" },
+      { key: "full_sister", label: "Saudara perempuan kandung", i18nKey: "heir_full_sister", i18nHintKey: "heir_full_sister_hint", hint: "ayah dan ibu sama", icon: "woman", iconColor: "female", max: 30, group: "Saudara", groupKey: "heir_group_saudara" },
+      { key: "paternal_brother", label: "Saudara laki-laki seayah", i18nKey: "heir_paternal_brother", i18nHintKey: "heir_paternal_brother_hint", hint: "ayah sama", icon: "man", iconColor: "male", max: 30, group: "Saudara", groupKey: "heir_group_saudara" },
+      { key: "paternal_sister", label: "Saudara perempuan seayah", i18nKey: "heir_paternal_sister", i18nHintKey: "heir_paternal_sister_hint", hint: "ayah sama", icon: "woman", iconColor: "female", max: 30, group: "Saudara", groupKey: "heir_group_saudara" },
+      { key: "maternal_brother", label: "Saudara laki-laki seibu", i18nKey: "heir_maternal_brother", i18nHintKey: "heir_maternal_brother_hint", hint: "ibu sama", icon: "man", iconColor: "male", max: 30, group: "Saudara seibu", groupKey: "heir_group_saudara_seibu" },
+      { key: "maternal_sister", label: "Saudara perempuan seibu", i18nKey: "heir_maternal_sister", i18nHintKey: "heir_maternal_sister_hint", hint: "ibu sama", icon: "woman", iconColor: "female", max: 30, group: "Saudara seibu", groupKey: "heir_group_saudara_seibu" },
+      { key: "full_nephew", label: "Keponakan laki-laki kandung", i18nKey: "heir_full_nephew", i18nHintKey: "heir_full_nephew_hint", hint: "anak saudara kandung laki-laki", icon: "person", iconColor: "neutral", max: 30, group: "Ashabah lanjutan", groupKey: "heir_group_ashabah" },
+      { key: "paternal_nephew", label: "Keponakan laki-laki seayah", i18nKey: "heir_paternal_nephew", i18nHintKey: "heir_paternal_nephew_hint", hint: "anak saudara seayah laki-laki", icon: "person", iconColor: "neutral", max: 30, group: "Ashabah lanjutan", groupKey: "heir_group_ashabah" },
+      { key: "full_uncle", label: "Paman kandung", i18nKey: "heir_full_uncle", i18nHintKey: "heir_full_uncle_hint", hint: "saudara ayah sekandung", icon: "man", iconColor: "male", max: 30, group: "Ashabah lanjutan", groupKey: "heir_group_ashabah" },
+      { key: "paternal_uncle", label: "Paman seayah", i18nKey: "heir_paternal_uncle", i18nHintKey: "heir_paternal_uncle_hint", hint: "saudara ayah seayah", icon: "man", iconColor: "male", max: 30, group: "Ashabah lanjutan", groupKey: "heir_group_ashabah" },
+      { key: "full_cousin", label: "Anak paman kandung", i18nKey: "heir_full_cousin", i18nHintKey: "heir_full_cousin_hint", hint: "laki-laki", icon: "person", iconColor: "neutral", max: 30, group: "Ashabah lanjutan", groupKey: "heir_group_ashabah" },
+      { key: "paternal_cousin", label: "Anak paman seayah", i18nKey: "heir_paternal_cousin", i18nHintKey: "heir_paternal_cousin_hint", hint: "laki-laki", icon: "person", iconColor: "neutral", max: 30, group: "Ashabah lanjutan", groupKey: "heir_group_ashabah" }
     ];
 
     const HEIR_LABELS = HEIR_FIELDS.reduce((acc, field) => { acc[field.key] = field.label; return acc; }, {});
@@ -1998,6 +2054,871 @@
 
     /* ENGINE_END */
 
+    /* ===== I18N ===== */
+    const LANG_STORAGE_KEY = "faraidpro-lang";
+    let currentLang = "id";
+
+    const i18n = {
+      id: {
+        lang_name: "Indonesia",
+        // Skip nav
+        skip_nav: "Lompat ke kalkulator",
+        // Nav
+        nav_label: "Navigasi",
+        nav_hitung: "Hitung",
+        nav_hasil: "Hasil",
+        nav_aturan: "Aturan",
+        nav_cetak: "Cetak",
+        nav_bagikan: "Bagikan hasil",
+        nav_ganti_tema: "Ganti tema",
+        nav_ganti_bahasa: "Ganti bahasa",
+        // Sample
+        sample_label: "Contoh kasus",
+        sample_standard: "Keluarga standar",
+        sample_standard_hint: "Suami + Ibu + Ayah + 2 Anak",
+        sample_gharawain: "Kasus Gharawain",
+        sample_gharawain_hint: "Suami + Ibu + Ayah tanpa anak",
+        sample_grandfather: "Kakek + Saudara",
+        sample_grandfather_hint: "Kakek bersama saudara perempuan",
+        sample_polygamy: "Poligami",
+        sample_polygamy_hint: "2 Istri + Anak-anak",
+        sample_sisters: "Hanya Saudara Perempuan",
+        sample_sisters_hint: "Kasus kalalah tanpa keturunan",
+        sample_aul: "Kasus Aul",
+        sample_aul_hint: "Total furudh melebihi harta",
+        sample_radd: "Kasus Radd",
+        sample_radd_hint: "Sisa harta dikembalikan",
+        sample_daughter: "Anak Perempuan Tunggal",
+        sample_daughter_hint: "1/2 tanpa anak laki-laki",
+        // Hero
+        hero_eyebrow: "Ilmu Faraid • KHI Indonesia • Perhitungan lokal",
+        hero_title: "Kalkulator Waris Islam",
+        hero_desc: "Masukkan harta siap bagi dan komposisi keluarga, lalu lihat bagian ahli waris, alasan hijab, serta penanganan kasus aul, radd, gharawain, musytarakah, akdariyyah, kakek bersama saudara, dan dzawil arham.",
+        hero_sample_btn: "Coba Contoh Kasus",
+        hero_net_label: "Harta waris bersih yang akan dibagi",
+        // Disclaimer
+        disclaimer: "<strong>Simulasi awal:</strong> Hasil ini bersifat informatif dan bukan pengganti konsultasi ahli faraid atau putusan pengadilan.",
+        // Steps
+        steps_label: "Alur kalkulator",
+        step1: "Harta",
+        step2: "Ahli waris",
+        step3: "Hasil",
+        // Form - Deceased & Estate
+        section_pewaris: "Data Pewaris dan Harta",
+        pewaris_desc: "Wasiat dihitung setelah biaya tajhiz dan hutang.",
+        lokal_badge: "Lokal",
+        lokal_tooltip: "Data diproses di perangkat Anda",
+        gender_label: "Jenis kelamin pewaris",
+        gender_laki: "Laki-laki",
+        gender_perempuan: "Perempuan",
+        estate_label: "Harta peninggalan",
+        estate_placeholder: "Contoh: 500.000.000",
+        funeral_label: "Biaya tajhiz",
+        funeral_placeholder: "Contoh: 10.000.000",
+        debts_label: "Hutang pewaris",
+        debts_placeholder: "Contoh: 5.000.000",
+        will_label: "Wasiat",
+        will_placeholder: "Contoh: 50.000.000",
+        will_consent: "Wasiat lebih dari sepertiga disetujui ahli waris",
+        will_consent_hint: "Jika tidak aktif, kelebihan wasiat otomatis dibatasi.",
+        net_estate: "Harta waris bersih",
+        will_used: "Wasiat yang dipakai",
+        // Form - Heirs
+        section_ahli_waris: "Ahli Waris",
+        ahli_waris_desc: "Isi jumlah yang hidup saat pewaris wafat dan tidak terkena penghalang mutlak.",
+        nasab_badge: "Nasab & Nikah",
+        binary_living: "Hidup",
+        binary_hint: "Centang jika masih ada",
+        binary_label_prefix: "Jumlah ",
+        counter_minus_prefix: "Kurangi ",
+        counter_plus_prefix: "Tambah ",
+        // Form - Options
+        section_opsi: "Opsi Ijtihad",
+        opsi_desc: "Default mengikuti pendapat jumhur yang umum dipakai di Indonesia.",
+        opsi_badge: "Lanjutan",
+        accordion_label: "Pengaturan Lanjutan",
+        opt_gharawain: "Gharawain: ibu mendapat sepertiga sisa",
+        opt_gharawain_hint: "Kasus suami/istri + ibu + ayah.",
+        opt_musytarakah: "Musytarakah: saudara kandung ikut bagian seibu",
+        opt_musytarakah_hint: "Kasus suami + ibu/nenek + saudara seibu + saudara kandung.",
+        opt_spouse_radd: "Radd untuk suami/istri saat tidak ada nasab",
+        opt_spouse_radd_hint: "Minoritas; default jumhur tidak memberi radd kepada pasangan.",
+        opt_grandfather: "Kakek bersama saudara (Zaid bin Tsabit)",
+        opt_grandfather_hint: "Jika NONAKTIF: kakek menghijab saudara (pendapat Abu Bakar/Hanafi). Jika AKTIF: kakek bersama saudara dengan perbandingan terbaik (Zaid/Syafii).",
+        opt_dzawil_arham: "Dzawil Arham berhak waris",
+        opt_dzawil_arham_hint: "Jika NONAKTIF: sisa tanpa ahli waris ke Baitul Mal (Syafii). Jika AKTIF: kerabat non-ashabah berhak waris (Hanafi/Hambali).",
+        switch_active: "Aktif",
+        switch_inactive: "Nonaktif",
+        // Actions
+        btn_reset: "Reset",
+        btn_hitung: "Hitung Waris",
+        // Result
+        result_title: "Hasil Pembagian",
+        result_not_calc: "Belum dihitung",
+        result_empty_title: "Hasil akan muncul di sini",
+        result_empty_desc: "Isi data harta dan ahli waris di atas, lalu klik <strong>Hitung Waris</strong> untuk melihat hasilnya.",
+        result_empty_reset: "Bagian, nominal, dan alasan hukum ditampilkan setelah perhitungan.",
+        // Table headers
+        table_heir: "Ahli waris",
+        table_share: "Bagian",
+        table_amount: "Nominal",
+        table_basis: "Dasar",
+        table_persons: "{count} orang",
+        table_one_person: "1 orang",
+        table_per_person: "{amount} per orang",
+        table_single: "bagian tunggal",
+        table_per_person_frac: "Bagian per orang: {frac}",
+        table_scroll_hint: "Geser tabel ke samping untuk melihat informasi selengkapnya",
+        // Summary
+        summary_estate: "Harta dibagi",
+        summary_method: "Metode",
+        // Notices
+        notice_will_capped: "Wasiat dibatasi menjadi {amount} karena melebihi sepertiga dari sisa setelah tajhiz dan hutang.",
+        notice_negative_estate: "Biaya tajhiz dan hutang melebihi harta peninggalan, sehingga harta waris bersih menjadi nol.",
+        notice_no_division: "Tidak ada pembagian",
+        notice_check_data: "Periksa kembali harta dan ahli waris.",
+        notice_pick_gender: "Pilih jenis kelamin pewaris",
+        notice_gender_desc: "Bagian pasangan bergantung pada data ini.",
+        // Case types
+        case_normal: "Normal",
+        case_ashabah: "Ashabah",
+        case_aul: "Aul",
+        case_radd: "Radd",
+        case_gharawain: "Gharawain",
+        case_akdariyyah: "Akdariyyah",
+        case_musytarakah: "Musytarakah",
+        case_grandfather: "Kakek bersama saudara",
+        case_baitul_mal: "Baitul Mal",
+        case_no_estate: "Tidak ada harta",
+        case_spouse_radd: "Radd pasangan",
+        case_dzawil_arham: "Dzawil Arham",
+        no_data: "Perlu data",
+        // Heir groups
+        heir_group_pasangan: "Pasangan",
+        heir_group_orangtua: "Orang tua",
+        heir_group_anak: "Anak",
+        heir_group_cucu: "Cucu dan leluhur",
+        heir_group_saudara: "Saudara",
+        heir_group_saudara_seibu: "Saudara seibu",
+        heir_group_ashabah: "Ashabah lanjutan",
+        // Heir labels
+        heir_husband: "Suami",
+        heir_husband_hint: "pasangan pewaris perempuan",
+        heir_wives: "Istri",
+        heir_wives_hint: "maksimal 4 istri sah",
+        heir_father: "Ayah",
+        heir_father_hint: "orang tua laki-laki",
+        heir_mother: "Ibu",
+        heir_mother_hint: "orang tua perempuan",
+        heir_son: "Anak laki-laki",
+        heir_son_hint: "anak kandung",
+        heir_daughter: "Anak perempuan",
+        heir_daughter_hint: "anak kandung",
+        heir_grandson: "Cucu laki-laki",
+        heir_grandson_hint: "dari anak laki-laki",
+        heir_granddaughter: "Cucu perempuan",
+        heir_granddaughter_hint: "dari anak laki-laki",
+        heir_grandfather: "Kakek",
+        heir_grandfather_hint: "ayah dari ayah",
+        heir_grandmother_maternal: "Nenek jalur ibu",
+        heir_grandmother_maternal_hint: "ibu dari ibu",
+        heir_grandmother_paternal: "Nenek jalur ayah",
+        heir_grandmother_paternal_hint: "ibu dari ayah",
+        heir_full_brother: "Saudara laki-laki kandung",
+        heir_full_brother_hint: "ayah dan ibu sama",
+        heir_full_sister: "Saudara perempuan kandung",
+        heir_full_sister_hint: "ayah dan ibu sama",
+        heir_paternal_brother: "Saudara laki-laki seayah",
+        heir_paternal_brother_hint: "ayah sama",
+        heir_paternal_sister: "Saudara perempuan seayah",
+        heir_paternal_sister_hint: "ayah sama",
+        heir_maternal_brother: "Saudara laki-laki seibu",
+        heir_maternal_brother_hint: "ibu sama",
+        heir_maternal_sister: "Saudara perempuan seibu",
+        heir_maternal_sister_hint: "ibu sama",
+        heir_full_nephew: "Keponakan laki-laki kandung",
+        heir_full_nephew_hint: "anak saudara kandung laki-laki",
+        heir_paternal_nephew: "Keponakan laki-laki seayah",
+        heir_paternal_nephew_hint: "anak saudara seayah laki-laki",
+        heir_full_uncle: "Paman kandung",
+        heir_full_uncle_hint: "saudara ayah sekandung",
+        heir_paternal_uncle: "Paman seayah",
+        heir_paternal_uncle_hint: "saudara ayah seayah",
+        heir_full_cousin: "Anak paman kandung",
+        heir_full_cousin_hint: "laki-laki",
+        heir_paternal_cousin: "Anak paman seayah",
+        heir_paternal_cousin_hint: "laki-laki",
+        // Toasts
+        toast_theme_dark: "Mode gelap diaktifkan",
+        toast_theme_light: "Mode terang diaktifkan",
+        toast_sample_loaded: "Contoh kasus dimuat",
+        toast_random_sample: "Contoh kasus acak dimuat",
+        toast_calc_first: "Hitung waris terlebih dahulu",
+        toast_print: "Membuka dialog cetak...",
+        toast_reset: "Form direset",
+        toast_url_copied: "URL disalin ke clipboard",
+        toast_copy_url: "Salin URL ini:",
+        toast_lang_changed: "Bahasa diubah ke Inggris",
+        toast_lang_changed_id: "Bahasa diubah ke Indonesia",
+        // Rules
+        rules_title: "Aturan Inti",
+        rules_desc: "Ringkasan dari dokumen basis pengetahuan di folder proyek.",
+        rule_tirkah: "Urutan Tirkah",
+        rule_tirkah_desc: "Harta dikurangi biaya tajhiz, hutang, lalu wasiat maksimal sepertiga sebelum dibagikan.",
+        rule_furudh: "Furudh dan Ashabah",
+        rule_furudh_desc: "Bagian pasti didahulukan; sisa diberikan kepada ashabah terdekat menurut urutan nasab.",
+        rule_aul_radd: "Aul dan Radd",
+        rule_aul_radd_desc: "Jika bagian pasti melebihi harta terjadi aul; jika ada sisa tanpa ashabah terjadi radd.",
+        // Footer & Links
+        footer_text: "FaraidPro memproses data di browser. Untuk sengketa, harta bersama, ahli waris pengganti, atau penghalang waris, gunakan hasil ini sebagai simulasi awal.",
+        guide_link: "Baca Panduan Lengkap Mekanisme Perhitungan",
+        // FAB
+        fab_hitung: "Hitung Waris",
+        // Validation
+        val_estate_error: "Biaya tajhiz dan hutang melebihi harta peninggalan!",
+        // Empty state
+        no_result_yet: "Hasil akan muncul di sini",
+        no_result_hint: "Bagian, nominal, dan alasan hukum ditampilkan setelah perhitungan.",
+        no_division_title: "Tidak ada pembagian",
+        no_division_hint: "Periksa kembali harta dan ahli waris.",
+        // Engine text (key notices)
+        engine_furudh_ashabah: "Furudh dan ashabah",
+        engine_no_estate: "Harta waris bersih tidak lebih dari nol, sehingga tidak ada pembagian waris.",
+        engine_aul: "Terjadi aul: total furudh {total} sehingga asal masalah dinaikkan.",
+        engine_radd: "Terjadi radd: sisa {residue} dikembalikan kepada ahli waris nasab yang berhak.",
+        engine_gharawain: "Kasus gharawain terdeteksi: pasangan, ibu, dan ayah tanpa keturunan atau ahli waris lain.",
+        engine_akdariyyah: "Kasus akdariyyah terdeteksi: suami, ibu, kakek, dan satu saudara perempuan.",
+        engine_musytarakah: "Kasus musytarakah terdeteksi dan dihitung dengan pendapat jumhur.",
+        engine_ashabah_none: "Ada calon ashabah, tetapi tidak ada sisa setelah bagian pasti dibagikan.",
+        engine_no_heirs: "Tidak ada ahli waris furudh atau ashabah pada input ini; sisa diarahkan ke Baitul Mal/dzawil arham sesuai kebijakan hukum yang dipakai.",
+        engine_baitul_mal_spouse: "Ada sisa {residue} setelah bagian pasangan; menurut jumhur sisa tidak diradd kepada suami/istri.",
+        engine_baitul_mal_no_radd: "Ada sisa {residue} tanpa ashabah atau penerima radd.",
+        engine_spouse_radd_active: "Radd kepada pasangan aktif. Ini bukan pendapat jumhur.",
+        engine_dzawil_arham: "Sisa {residue} diberikan kepada dzawil arham menurut pendapat Hanafi/Hambali.",
+        engine_gf_muqasamah: "Kakek mendapat bagian muqasamah (berbagi dengan saudara): {share} dari sisa.",
+        engine_gf_third: "Kakek mendapat 1/3 dari total harta (lebih baik dari muqasamah).",
+        engine_gf_sixth: "Kakek mendapat 1/6 dari total harta (lebih baik dari opsi lain).",
+        engine_aul_method: "Total furudh {total} melebihi harta, semua bagian dikurangi proporsional.",
+        engine_gharawain_method_male: "Ibu mendapat 1/3 dari sisa setelah pasangan",
+        engine_gharawain_method_female: "Ibu mendapat 1/3 dari sisa setelah pasangan",
+        engine_akdariyyah_method: "Penyelesaian Zaid bin Tsabit dengan asal masalah 27",
+        engine_musytarakah_method: "Saudara kandung berbagi 1/3 bersama saudara seibu",
+        engine_gf_method: "Kakek bersama saudara (Zaid bin Tsabit): kakek memilih terbaik dari muqasamah, 1/3, atau 1/6.",
+        engine_ashabah_method: "Furudh lalu sisa kepada ashabah terdekat.",
+        engine_radd_method: "Sisa harta dikembalikan kepada penerima radd selain pasangan.",
+        engine_spouse_radd_method: "Sisa diberikan kepada pasangan berdasarkan opsi minoritas.",
+        engine_baitul_mal_method1: "Pasangan tidak menerima radd menurut jumhur.",
+        engine_baitul_mal_method2: "Tidak ada ashabah dan tidak ada penerima radd.",
+        engine_no_heirs_method: "Tidak ada ahli waris yang memenuhi kategori utama.",
+        engine_dzawil_method: "Sisa diberikan kepada dzawil arham (kerabat non-ashabah)",
+        // Notice in result about will
+        will_capped_notice: "Wasiat dibatasi menjadi {amount} karena melebihi sepertiga.",
+        neg_estate_notice: "Biaya tajhiz dan hutang melebihi harta peninggalan.",
+        // Print
+        btn_print: "Cetak",
+        btn_share: "Bagikan",
+        href_calc: "#calculator",
+        href_result: "#hasil",
+        href_rules: "#aturan",
+        // Blocked reasons
+        blocked_father: "Terhijab oleh ayah.",
+        blocked_mother: "Terhijab oleh ibu.",
+        blocked_father_grandfather: "Terhijab oleh ayah/kakek.",
+        blocked_son: "Terhijab oleh anak laki-laki.",
+        blocked_daughters: "Terhijab oleh dua anak perempuan atau lebih tanpa cucu laki-laki.",
+        blocked_descendant: "Terhijab oleh keturunan pewaris.",
+        blocked_male_descendant: "Terhijab oleh keturunan laki-laki.",
+        blocked_full_brother: "Terhijab oleh saudara laki-laki kandung.",
+        blocked_full_sister_ashabah: "Terhijab oleh saudara perempuan kandung yang menjadi ashabah bersama keturunan perempuan.",
+        blocked_two_full_sisters: "Terhijab oleh dua saudara perempuan kandung.",
+        blocked_closer_ashabah: "Tidak mendapat bagian karena ada ashabah yang lebih dekat.",
+        // Basis texts
+        basis_husband_half: "Suami mendapat 1/2 karena tidak ada keturunan.",
+        basis_husband_quarter: "Suami mendapat 1/4 karena ada keturunan.",
+        basis_wives_quarter: "Istri mendapat 1/4 bersama-sama karena tidak ada keturunan.",
+        basis_wives_eighth: "Istri mendapat 1/8 bersama-sama karena ada keturunan.",
+        basis_mother_sixth: "Ibu mendapat 1/6 karena ada keturunan atau dua saudara lebih.",
+        basis_mother_third: "Ibu mendapat 1/3 karena tidak ada keturunan dan saudara kurang dari dua.",
+        basis_father_sixth: "Ayah mendapat 1/6 karena ada keturunan.",
+        basis_father_ashabah: "Ayah mengambil sisa sebagai ashabah.",
+        basis_grandfather_sixth: "Kakek mendapat 1/6 karena tidak ada ayah dan ada keturunan.",
+        basis_grandmother_equal: "Nenek shahihah mendapat 1/6 bersama-sama.",
+        basis_daughter_half: "Anak perempuan tunggal mendapat 1/2 tanpa anak laki-laki.",
+        basis_daughter_twothirds: "Dua anak perempuan atau lebih mendapat 2/3 tanpa anak laki-laki.",
+        basis_granddaughter_half: "Cucu perempuan tunggal mendapat 1/2 tanpa anak dan cucu laki-laki.",
+        basis_granddaughter_twothirds: "Dua cucu perempuan atau lebih mendapat 2/3 tanpa anak dan cucu laki-laki.",
+        basis_granddaughter_sixth: "Cucu perempuan mendapat 1/6 untuk melengkapi bagian keturunan perempuan menjadi 2/3.",
+        basis_maternal_single: "Saudara seibu tunggal mendapat 1/6.",
+        basis_maternal_multi: "Dua saudara seibu atau lebih mendapat 1/3 dibagi rata.",
+        basis_full_sister_half: "Saudara perempuan kandung tunggal mendapat 1/2 pada kasus kalalah.",
+        basis_full_sister_twothirds: "Dua saudara perempuan kandung atau lebih mendapat 2/3 pada kasus kalalah.",
+        basis_paternal_sister_half: "Saudara perempuan seayah tunggal mendapat 1/2 pada kasus kalalah.",
+        basis_paternal_sister_twothirds: "Dua saudara perempuan seayah atau lebih mendapat 2/3 pada kasus kalalah.",
+        basis_paternal_sister_sixth: "Saudara perempuan seayah mendapat 1/6 bersama satu saudara perempuan kandung.",
+        basis_ashabah_son: "Anak laki-laki menjadi ashabah; anak perempuan bersamanya mendapat 2:1.",
+        basis_ashabah_grandson: "Cucu laki-laki dari anak laki-laki menjadi ashabah; cucu perempuan bersamanya mendapat 2:1.",
+        basis_ashabah_grandfather: "Kakek bersama saudara dengan perbandingan terbaik.",
+        basis_ashabah_full_brother: "Saudara kandung menjadi ashabah dengan perbandingan laki-laki dua bagian.",
+        basis_ashabah_full_sister: "Saudara perempuan kandung menjadi ashabah bersama keturunan perempuan.",
+        basis_ashabah_paternal_brother: "Saudara seayah menjadi ashabah dengan perbandingan laki-laki dua bagian.",
+        basis_ashabah_paternal_sister: "Saudara perempuan seayah menjadi ashabah bersama keturunan perempuan.",
+        basis_radd_general: "Radd: sisa dikembalikan proporsional kepada ahli waris nasab penerima radd.",
+        basis_radd_spouse: "Radd minoritas: sisa diberikan kepada pasangan karena tidak ada ahli waris nasab.",
+        basis_musytarakah_equal: "Musytarakah: bagian 1/3 dibagi rata antara saudara seibu dan saudara kandung.",
+        basis_grandmother_substitute: "Nenek menggantikan bagian ibu sebesar 1/6.",
+        basis_gharawain_mother_after_husband: "Ibu mendapat 1/3 dari sisa setelah bagian suami.",
+        basis_gharawain_mother_after_wives: "Ibu mendapat 1/3 dari sisa setelah bagian istri.",
+        basis_akdariyyah_husband: "Suami mendapat 9/27 pada penyelesaian akdariyyah.",
+        basis_akdariyyah_mother: "Ibu mendapat 6/27 pada penyelesaian akdariyyah.",
+        basis_akdariyyah_grandfather: "Kakek dan saudara perempuan digabung lalu dibagi 2:1.",
+        basis_akdariyyah_sister: "Saudara perempuan mendapat bagian setelah penggabungan dengan kakek.",
+        basis_musytarakah_mother: "Ibu mendapat 1/6 dalam komposisi musytarakah.",
+        basis_gf_siblings_full: "Sisa setelah kakek dibagi 2:1 antara saudara kandung.",
+        basis_gf_siblings_paternal: "Sisa setelah kakek dibagi 2:1 antara saudara seayah.",
+        basis_gf_siblings_equal: "Sisa setelah kakek dibagi rata kepada saudara.",
+        basis_gf_siblings_sisters: "Sisa setelah kakek dibagi rata kepada saudara perempuan.",
+        basis_gf_best: "Kakek mendapat {share} dari sisa (terbaik dari muqasamah, 1/3, 1/6).",
+      },
+      en: {
+        lang_name: "English",
+        skip_nav: "Skip to calculator",
+        nav_label: "Navigation",
+        nav_hitung: "Calculate",
+        nav_hasil: "Results",
+        nav_aturan: "Rules",
+        nav_cetak: "Print",
+        nav_bagikan: "Share results",
+        nav_ganti_tema: "Toggle theme",
+        nav_ganti_bahasa: "Switch language",
+        sample_label: "Sample cases",
+        sample_standard: "Standard Family",
+        sample_standard_hint: "Husband + Mother + Father + 2 Children",
+        sample_gharawain: "Gharawain Case",
+        sample_gharawain_hint: "Husband + Mother + Father no children",
+        sample_grandfather: "Grandfather + Siblings",
+        sample_grandfather_hint: "Grandfather with sisters",
+        sample_polygamy: "Polygamy",
+        sample_polygamy_hint: "2 Wives + Children",
+        sample_sisters: "Sisters Only",
+        sample_sisters_hint: "Kalalah case without descendants",
+        sample_aul: "Aul Case",
+        sample_aul_hint: "Total shares exceed estate",
+        sample_radd: "Radd Case",
+        sample_radd_hint: "Surplus returned to heirs",
+        sample_daughter: "Single Daughter",
+        sample_daughter_hint: "1/2 without a son",
+        hero_eyebrow: "Faraid Science • Indonesian KHI • Local Computation",
+        hero_title: "Islamic Inheritance Calculator",
+        hero_desc: "Enter the distributable estate and family composition to see heirs' shares, hijab reasons, and handling of aul, radd, gharawain, musytarakah, akdariyyah, grandfather with siblings, and dzawil arham cases.",
+        hero_sample_btn: "Try Sample Case",
+        hero_net_label: "Net estate to be distributed",
+        disclaimer: "<strong>Initial simulation:</strong> Results are informative and not a substitute for consultation with faraid experts or court decisions.",
+        steps_label: "Calculator steps",
+        step1: "Estate",
+        step2: "Heirs",
+        step3: "Result",
+        section_pewaris: "Deceased & Estate Data",
+        pewaris_desc: "Will is calculated after funeral expenses and debts.",
+        lokal_badge: "Local",
+        lokal_tooltip: "Data is processed on your device",
+        gender_label: "Deceased's gender",
+        gender_laki: "Male",
+        gender_perempuan: "Female",
+        estate_label: "Gross estate",
+        estate_placeholder: "Example: 500,000,000",
+        funeral_label: "Funeral expenses",
+        funeral_placeholder: "Example: 10,000,000",
+        debts_label: "Debts",
+        debts_placeholder: "Example: 5,000,000",
+        will_label: "Will (Wasiyyah)",
+        will_placeholder: "Example: 50,000,000",
+        will_consent: "Will exceeding one-third approved by heirs",
+        will_consent_hint: "If inactive, excess will is automatically capped.",
+        net_estate: "Net estate",
+        will_used: "Will applied",
+        section_ahli_waris: "Heirs",
+        ahli_waris_desc: "Enter the number alive at the time of death and not under absolute impediment.",
+        nasab_badge: "Lineage & Marriage",
+        binary_living: "Living",
+        binary_hint: "Check if present",
+        binary_label_prefix: "Number of ",
+        counter_minus_prefix: "Decrease ",
+        counter_plus_prefix: "Increase ",
+        section_opsi: "Ijtihad Options",
+        opsi_desc: "Defaults follow the jumhur opinion commonly used in Indonesia.",
+        opsi_badge: "Advanced",
+        accordion_label: "Advanced Settings",
+        opt_gharawain: "Gharawain: mother gets one-third of remainder",
+        opt_gharawain_hint: "Spouse + mother + father case.",
+        opt_musytarakah: "Musytarakah: full siblings share the maternal portion",
+        opt_musytarakah_hint: "Husband + mother/grandmother + maternal + full siblings.",
+        opt_spouse_radd: "Radd for spouse when no blood heirs exist",
+        opt_spouse_radd_hint: "Minority opinion; jumhur does not give radd to spouse.",
+        opt_grandfather: "Grandfather with siblings (Zaid bin Thabit)",
+        opt_grandfather_hint: "If INACTIVE: grandfather blocks siblings (Abu Bakar/Hanafi). If ACTIVE: grandfather shares with siblings at best ratio (Zaid/Shafii).",
+        opt_dzawil_arham: "Dzawil Arham entitled to inheritance",
+        opt_dzawil_arham_hint: "If INACTIVE: surplus without heirs goes to Baitul Mal (Shafii). If ACTIVE: non-ashabah relatives inherit (Hanafi/Hanbali).",
+        switch_active: "Active",
+        switch_inactive: "Inactive",
+        btn_reset: "Reset",
+        btn_hitung: "Calculate",
+        result_title: "Distribution Results",
+        result_not_calc: "Not yet calculated",
+        result_empty_title: "Results will appear here",
+        result_empty_desc: "Fill in the estate and heirs data above, then click <strong>Calculate</strong> to see the results.",
+        result_empty_reset: "Shares, amounts, and legal reasons will appear after calculation.",
+        table_heir: "Heir",
+        table_share: "Share",
+        table_amount: "Amount",
+        table_basis: "Basis",
+        table_persons: "{count} persons",
+        table_one_person: "1 person",
+        table_per_person: "{amount} per person",
+        table_single: "single portion",
+        table_per_person_frac: "Per person: {frac}",
+        table_scroll_hint: "Scroll the table sideways for more information",
+        summary_estate: "Estate distributed",
+        summary_method: "Method",
+        notice_will_capped: "Will capped at {amount} as it exceeds one-third of the remainder after expenses and debts.",
+        notice_negative_estate: "Funeral expenses and debts exceed the gross estate, making the net estate zero.",
+        notice_no_division: "No distribution",
+        notice_check_data: "Check the estate and heirs again.",
+        notice_pick_gender: "Select deceased's gender",
+        notice_gender_desc: "The spouse's share depends on this.",
+        case_normal: "Normal",
+        case_ashabah: "Ashabah",
+        case_aul: "Aul",
+        case_radd: "Radd",
+        case_gharawain: "Gharawain",
+        case_akdariyyah: "Akdariyyah",
+        case_musytarakah: "Musytarakah",
+        case_grandfather: "Grandfather with siblings",
+        case_baitul_mal: "Baitul Mal",
+        case_no_estate: "No estate",
+        case_spouse_radd: "Spouse Radd",
+        case_dzawil_arham: "Dzawil Arham",
+        no_data: "Data needed",
+        heir_group_pasangan: "Spouse",
+        heir_group_orangtua: "Parents",
+        heir_group_anak: "Children",
+        heir_group_cucu: "Grandchildren & Ancestors",
+        heir_group_saudara: "Siblings",
+        heir_group_saudara_seibu: "Maternal Siblings",
+        heir_group_ashabah: "Further Ashabah",
+        heir_husband: "Husband",
+        heir_husband_hint: "spouse of female deceased",
+        heir_wives: "Wives",
+        heir_wives_hint: "max 4 legal wives",
+        heir_father: "Father",
+        heir_father_hint: "male parent",
+        heir_mother: "Mother",
+        heir_mother_hint: "female parent",
+        heir_son: "Son",
+        heir_son_hint: "biological child",
+        heir_daughter: "Daughter",
+        heir_daughter_hint: "biological child",
+        heir_grandson: "Grandson",
+        heir_grandson_hint: "from son",
+        heir_granddaughter: "Granddaughter",
+        heir_granddaughter_hint: "from son",
+        heir_grandfather: "Grandfather",
+        heir_grandfather_hint: "father's father",
+        heir_grandmother_maternal: "Grandmother (maternal)",
+        heir_grandmother_maternal_hint: "mother's mother",
+        heir_grandmother_paternal: "Grandmother (paternal)",
+        heir_grandmother_paternal_hint: "father's mother",
+        heir_full_brother: "Full brother",
+        heir_full_brother_hint: "same father and mother",
+        heir_full_sister: "Full sister",
+        heir_full_sister_hint: "same father and mother",
+        heir_paternal_brother: "Paternal brother",
+        heir_paternal_brother_hint: "same father",
+        heir_paternal_sister: "Paternal sister",
+        heir_paternal_sister_hint: "same father",
+        heir_maternal_brother: "Maternal brother",
+        heir_maternal_brother_hint: "same mother",
+        heir_maternal_sister: "Maternal sister",
+        heir_maternal_sister_hint: "same mother",
+        heir_full_nephew: "Full nephew",
+        heir_full_nephew_hint: "son of full brother",
+        heir_paternal_nephew: "Paternal nephew",
+        heir_paternal_nephew_hint: "son of paternal brother",
+        heir_full_uncle: "Full uncle",
+        heir_full_uncle_hint: "father's full brother",
+        heir_paternal_uncle: "Paternal uncle",
+        heir_paternal_uncle_hint: "father's paternal brother",
+        heir_full_cousin: "Full male cousin",
+        heir_full_cousin_hint: "male",
+        heir_paternal_cousin: "Paternal male cousin",
+        heir_paternal_cousin_hint: "male",
+        toast_theme_dark: "Dark mode activated",
+        toast_theme_light: "Light mode activated",
+        toast_sample_loaded: "Sample case loaded",
+        toast_random_sample: "Random sample case loaded",
+        toast_calc_first: "Calculate inheritance first",
+        toast_print: "Opening print dialog...",
+        toast_reset: "Form reset",
+        toast_url_copied: "URL copied to clipboard",
+        toast_copy_url: "Copy this URL:",
+        toast_lang_changed: "Language switched to English",
+        toast_lang_changed_id: "Language switched to Indonesian",
+        rules_title: "Core Rules",
+        rules_desc: "Summary from the knowledge base document in the project folder.",
+        rule_tirkah: "Estate Order",
+        rule_tirkah_desc: "Estate is reduced by funeral costs, debts, then max one-third for will before distribution.",
+        rule_furudh: "Fixed Shares and Ashabah",
+        rule_furudh_desc: "Fixed shares are prioritized; residue goes to the nearest ashabah according to lineage order.",
+        rule_aul_radd: "Aul and Radd",
+        rule_aul_radd_desc: "If fixed shares exceed the estate, aul occurs; if there is surplus without ashabah, radd occurs.",
+        footer_text: "FaraidPro processes data in-browser. For disputes, joint property, substitute heirs, or inheritance barriers, use these results as an initial simulation.",
+        guide_link: "Read Full Calculation Guide",
+        fab_hitung: "Calculate",
+        val_estate_error: "Funeral expenses and debts exceed the estate!",
+        no_result_yet: "Results will appear here",
+        no_result_hint: "Shares, amounts, and legal reasons will appear after calculation.",
+        no_division_title: "No distribution",
+        no_division_hint: "Check the estate and heirs again.",
+        engine_furudh_ashabah: "Fixed shares and ashabah",
+        engine_no_estate: "Net estate is not more than zero, so there is no distribution.",
+        engine_aul: "Aul occurred: total fixed shares {total}, so the base problem is raised.",
+        engine_radd: "Radd occurred: surplus {residue} returned proportionally to nasab heirs.",
+        engine_gharawain: "Gharawain case detected: spouse, mother, and father without descendants or other heirs.",
+        engine_akdariyyah: "Akdariyyah case detected: husband, mother, grandfather, and one sister.",
+        engine_musytarakah: "Musytarakah case detected and calculated with the jumhur opinion.",
+        engine_ashabah_none: "There are potential ashabah, but no residue remains after fixed shares.",
+        engine_no_heirs: "No furudh or ashabah heirs in this input; the residue is directed to Baitul Mal/dzawil arham per applicable legal policy.",
+        engine_baitul_mal_spouse: "Residue {residue} remains after spouse's share; per jumhur, the residue is not radd'd to the spouse.",
+        engine_baitul_mal_no_radd: "Residue {residue} remains without ashabah or radd recipients.",
+        engine_spouse_radd_active: "Radd to spouse is active. This is not the jumhur opinion.",
+        engine_dzawil_arham: "Residue {residue} is given to dzawil arham per Hanafi/Hanbali opinion.",
+        engine_gf_muqasamah: "Grandfather gets muqasamah share (sharing with siblings): {share} of residue.",
+        engine_gf_third: "Grandfather gets 1/3 of total estate (better than muqasamah).",
+        engine_gf_sixth: "Grandfather gets 1/6 of total estate (better than other options).",
+        engine_aul_method: "Total fixed shares {total} exceed the estate, all shares reduced proportionally.",
+        engine_gharawain_method_male: "Mother gets 1/3 of remainder after spouse",
+        engine_gharawain_method_female: "Mother gets 1/3 of remainder after spouse",
+        engine_akdariyyah_method: "Zaid bin Thabit's solution with base number 27",
+        engine_musytarakah_method: "Full siblings share 1/3 with maternal siblings",
+        engine_gf_method: "Grandfather with siblings (Zaid bin Thabit): grandfather chooses best of muqasamah, 1/3, or 1/6.",
+        engine_ashabah_method: "Fixed shares, then residue to nearest ashabah.",
+        engine_radd_method: "Surplus returned to radd-eligible heirs excluding spouse.",
+        engine_spouse_radd_method: "Surplus given to spouse based on minority opinion.",
+        engine_baitul_mal_method1: "Spouse does not receive radd per jumhur.",
+        engine_baitul_mal_method2: "No ashabah and no radd recipients.",
+        engine_no_heirs_method: "No heirs meeting the primary categories.",
+        engine_dzawil_method: "Residue given to dzawil arham (non-ashabah relatives)",
+        will_capped_notice: "Will capped at {amount} because it exceeds one-third.",
+        neg_estate_notice: "Funeral expenses and debts exceed the estate.",
+        btn_print: "Print",
+        btn_share: "Share",
+        href_calc: "#calculator",
+        href_result: "#results",
+        href_rules: "#rules",
+        // Blocked reasons
+        blocked_father: "Blocked by father.",
+        blocked_mother: "Blocked by mother.",
+        blocked_father_grandfather: "Blocked by father/grandfather.",
+        blocked_son: "Blocked by son.",
+        blocked_daughters: "Blocked by two or more daughters without a grandson.",
+        blocked_descendant: "Blocked by descendants of the deceased.",
+        blocked_male_descendant: "Blocked by male descendant.",
+        blocked_full_brother: "Blocked by full brother.",
+        blocked_full_sister_ashabah: "Blocked by full sister who becomes ashabah with female descendants.",
+        blocked_two_full_sisters: "Blocked by two full sisters.",
+        blocked_closer_ashabah: "Not entitled because there is a closer ashabah.",
+        // Basis texts
+        basis_husband_half: "Husband receives 1/2 because there are no descendants.",
+        basis_husband_quarter: "Husband receives 1/4 because there are descendants.",
+        basis_wives_quarter: "Wives receive 1/4 jointly because there are no descendants.",
+        basis_wives_eighth: "Wives receive 1/8 jointly because there are descendants.",
+        basis_mother_sixth: "Mother receives 1/6 because there are descendants or two or more siblings.",
+        basis_mother_third: "Mother receives 1/3 because there are no descendants and fewer than two siblings.",
+        basis_father_sixth: "Father receives 1/6 because there are descendants.",
+        basis_father_ashabah: "Father takes the residue as ashabah.",
+        basis_grandfather_sixth: "Grandfather receives 1/6 because there is no father and there are descendants.",
+        basis_grandmother_equal: "Grandmother receives 1/6 jointly.",
+        basis_daughter_half: "Single daughter receives 1/2 without a son.",
+        basis_daughter_twothirds: "Two or more daughters receive 2/3 without a son.",
+        basis_granddaughter_half: "Single granddaughter receives 1/2 without a son or grandson.",
+        basis_granddaughter_twothirds: "Two or more granddaughters receive 2/3 without children or grandson.",
+        basis_granddaughter_sixth: "Granddaughter receives 1/6 to complete the female descendants' portion to 2/3.",
+        basis_maternal_single: "Single maternal sibling receives 1/6.",
+        basis_maternal_multi: "Two or more maternal siblings receive 1/3 divided equally.",
+        basis_full_sister_half: "Single full sister receives 1/2 in kalalah case.",
+        basis_full_sister_twothirds: "Two or more full sisters receive 2/3 in kalalah case.",
+        basis_paternal_sister_half: "Single paternal sister receives 1/2 in kalalah case.",
+        basis_paternal_sister_twothirds: "Two or more paternal sisters receive 2/3 in kalalah case.",
+        basis_paternal_sister_sixth: "Paternal sister receives 1/6 with one full sister.",
+        basis_ashabah_son: "Son becomes ashabah; daughters with him receive 2:1.",
+        basis_ashabah_grandson: "Grandson from son becomes ashabah; granddaughters with him receive 2:1.",
+        basis_ashabah_grandfather: "Grandfather with siblings at the best ratio.",
+        basis_ashabah_full_brother: "Full siblings become ashabah with males receiving double the females.",
+        basis_ashabah_full_sister: "Full sister becomes ashabah together with female descendants.",
+        basis_ashabah_paternal_brother: "Paternal siblings become ashabah with males receiving double the females.",
+        basis_ashabah_paternal_sister: "Paternal sister becomes ashabah together with female descendants.",
+        basis_radd_general: "Radd: surplus returned proportionally to nasab heirs entitled to radd.",
+        basis_radd_spouse: "Radd minority: surplus given to spouse because no blood heirs exist.",
+        basis_musytarakah_equal: "Musytarakah: 1/3 share divided equally among maternal and full siblings.",
+        basis_grandmother_substitute: "Grandmother replaces mother's portion of 1/6.",
+        basis_gharawain_mother_after_husband: "Mother receives 1/3 of the remainder after husband's share.",
+        basis_gharawain_mother_after_wives: "Mother receives 1/3 of the remainder after wives' share.",
+        basis_akdariyyah_husband: "Husband receives 9/27 in the akdariyyah solution.",
+        basis_akdariyyah_mother: "Mother receives 6/27 in the akdariyyah solution.",
+        basis_akdariyyah_grandfather: "Grandfather and sister are combined then divided 2:1.",
+        basis_akdariyyah_sister: "Sister receives her portion after combination with grandfather.",
+        basis_musytarakah_mother: "Mother receives 1/6 in the musytarakah composition.",
+        basis_gf_siblings_full: "Remainder after grandfather divided 2:1 among full siblings.",
+        basis_gf_siblings_paternal: "Remainder after grandfather divided 2:1 among paternal siblings.",
+        basis_gf_siblings_equal: "Remainder after grandfather divided equally among siblings.",
+        basis_gf_siblings_sisters: "Remainder after grandfather divided equally among sisters.",
+        basis_gf_best: "Grandfather receives {share} of residue (best of muqasamah, 1/3, 1/6).",
+      }
+    };
+
+    function t(key, replacements = {}) {
+      let str = (i18n[currentLang] && i18n[currentLang][key]) || (i18n["id"][key]) || key;
+      if (typeof str !== "string") return str;
+      Object.keys(replacements).forEach((k) => {
+        str = str.replace(new RegExp("\\{" + k + "\\}", "g"), replacements[k]);
+      });
+      return str;
+    }
+
+    function getCaseTypeKey(caseType) {
+      const map = {
+        "Normal": "case_normal",
+        "Ashabah": "case_ashabah",
+        "Aul": "case_aul",
+        "Radd": "case_radd",
+        "Gharawain": "case_gharawain",
+        "Akdariyyah": "case_akdariyyah",
+        "Musytarakah": "case_musytarakah",
+        "Kakek bersama saudara": "case_grandfather",
+        "Baitul Mal": "case_baitul_mal",
+        "Tidak ada harta": "case_no_estate",
+        "Radd pasangan": "case_spouse_radd",
+        "Dzawil Arham": "case_dzawil_arham"
+      };
+      return map[caseType] || "case_normal";
+    }
+
+    function getMethodKey(method) {
+      const map = {
+        "Furudh dan ashabah": "engine_furudh_ashabah",
+        "Ibu mendapat 1/3 dari sisa setelah pasangan": "engine_gharawain_method_male",
+        "Penyelesaian Zaid bin Tsabit dengan asal masalah 27": "engine_akdariyyah_method",
+        "Saudara kandung berbagi 1/3 bersama saudara seibu": "engine_musytarakah_method",
+        "Kakek bersama saudara (Zaid bin Tsabit): kakek memilih terbaik dari muqasamah, 1/3, atau 1/6.": "engine_gf_method",
+        "Furudh lalu sisa kepada ashabah terdekat.": "engine_ashabah_method",
+        "Sisa harta dikembalikan kepada penerima radd selain pasangan.": "engine_radd_method",
+        "Sisa diberikan kepada pasangan berdasarkan opsi minoritas.": "engine_spouse_radd_method",
+        "Pasangan tidak menerima radd menurut jumhur.": "engine_baitul_mal_method1",
+        "Tidak ada ashabah dan tidak ada penerima radd.": "engine_baitul_mal_method2",
+        "Tidak ada ahli waris yang memenuhi kategori utama.": "engine_no_heirs_method",
+        "Sisa diberikan kepada dzawil arham (kerabat non-ashabah)": "engine_dzawil_method"
+      };
+      // Also match Aul method which has dynamic total
+      if (method && method.startsWith("Total furudh")) return "engine_aul_method";
+      if (method && method.startsWith("Ibu mendapat")) return "engine_gharawain_method_male";
+      return map[method] || "";
+    }
+
+    function getMethodDisplayText(method) {
+      const key = getMethodKey(method);
+      if (!key) return method;
+      // Extract dynamic values for Aul/Totals and radd notices
+      let total = "", residue = "";
+      if (method && method.startsWith("Total furudh")) {
+        const match = method.match(/Total furudh ([\d\/]+) melebihi/);
+        if (match) total = match[1];
+      }
+      if (key === "engine_aul_method") {
+        return t(key, { total: total || "" });
+      }
+      return t(key);
+    }
+
+    function getNoticeKey(text) {
+      let totalMatch = text.match(/total bagian pasti ([\d\/]+) sehingga/);
+      let residueMatch = text.match(/sisa ([\d\/]+) (dikembalikan|setelah|tanpa|diberikan)/);
+      let shareMatch = text.match(/muqasamah \(berbagi dengan saudara\): ([\d\/]+) dari sisa\./);
+      let total = totalMatch ? totalMatch[1] : "";
+      let residue = residueMatch ? residueMatch[1] : "";
+      let share = shareMatch ? shareMatch[1] : "";
+
+      if (text.startsWith("Kasus gharawain terdeteksi")) return { key: "engine_gharawain", replacements: {} };
+      if (text.startsWith("Kasus akdariyyah terdeteksi")) return { key: "engine_akdariyyah", replacements: {} };
+      if (text.startsWith("Kasus musytarakah terdeteksi")) return { key: "engine_musytarakah", replacements: {} };
+      if (text.startsWith("Harta waris bersih tidak lebih")) return { key: "engine_no_estate", replacements: {} };
+      if (text.startsWith("Terjadi aul")) return { key: "engine_aul", replacements: { total: total } };
+      if (text.startsWith("Ada calon ashabah")) return { key: "engine_ashabah_none", replacements: {} };
+      if (text.startsWith("Tidak ada ahli waris furudh")) return { key: "engine_no_heirs", replacements: {} };
+      if (text.startsWith("Kakek mendapat bagian muqasamah")) return { key: "engine_gf_muqasamah", replacements: { share: share } };
+      if (text.startsWith("Kakek mendapat 1/3")) return { key: "engine_gf_third", replacements: {} };
+      if (text.startsWith("Kakek mendapat 1/6")) return { key: "engine_gf_sixth", replacements: {} };
+      if (text.startsWith("Terjadi radd")) return { key: "engine_radd", replacements: { residue: residue } };
+      if (text.startsWith("Radd kepada pasangan aktif")) return { key: "engine_spouse_radd_active", replacements: {} };
+      if (text.startsWith("Ada sisa") && text.includes("setelah bagian pasangan")) return { key: "engine_baitul_mal_spouse", replacements: { residue: residue } };
+      if (text.startsWith("Ada sisa") && text.includes("tanpa ashabah")) return { key: "engine_baitul_mal_no_radd", replacements: { residue: residue } };
+      if (text.startsWith("Sisa") && text.includes("dzawil arham")) return { key: "engine_dzawil_arham", replacements: { residue: residue } };
+      return null;
+    }
+
+    function getBlockedReasonKey(reason) {
+      const map = {
+        "Terhijab oleh ayah.": "blocked_father",
+        "Terhijab oleh ibu.": "blocked_mother",
+        "Terhijab oleh ayah/kakek.": "blocked_father_grandfather",
+        "Terhijab oleh anak laki-laki.": "blocked_son",
+        "Terhijab oleh dua anak perempuan atau lebih tanpa cucu laki-laki.": "blocked_daughters",
+        "Terhijab oleh keturunan pewaris.": "blocked_descendant",
+        "Terhijab oleh keturunan laki-laki.": "blocked_male_descendant",
+        "Terhijab oleh saudara laki-laki kandung.": "blocked_full_brother",
+        "Terhijab oleh saudara perempuan kandung yang menjadi ashabah bersama keturunan perempuan.": "blocked_full_sister_ashabah",
+        "Terhijab oleh dua saudara perempuan kandung.": "blocked_two_full_sisters",
+        "Tidak mendapat bagian karena ada ashabah yang lebih dekat.": "blocked_closer_ashabah"
+      };
+      return map[reason] || null;
+    }
+
+    function getBasisKey(text) {
+      const map = {
+        "Suami mendapat 1/2 karena tidak ada keturunan.": "basis_husband_half",
+        "Suami mendapat 1/4 karena ada keturunan.": "basis_husband_quarter",
+        "Istri mendapat 1/4 bersama-sama karena tidak ada keturunan.": "basis_wives_quarter",
+        "Istri mendapat 1/8 bersama-sama karena ada keturunan.": "basis_wives_eighth",
+        "Ibu mendapat 1/6 karena ada keturunan atau dua saudara lebih.": "basis_mother_sixth",
+        "Ibu mendapat 1/3 karena tidak ada keturunan dan saudara kurang dari dua.": "basis_mother_third",
+        "Ayah mendapat 1/6 karena ada keturunan.": "basis_father_sixth",
+        "Ayah mengambil sisa sebagai ashabah.": "basis_father_ashabah",
+        "Kakek mendapat 1/6 karena tidak ada ayah dan ada keturunan.": "basis_grandfather_sixth",
+        "Nenek shahihah mendapat 1/6 bersama-sama.": "basis_grandmother_equal",
+        "Anak perempuan tunggal mendapat 1/2 tanpa anak laki-laki.": "basis_daughter_half",
+        "Dua anak perempuan atau lebih mendapat 2/3 tanpa anak laki-laki.": "basis_daughter_twothirds",
+        "Cucu perempuan tunggal mendapat 1/2 tanpa anak dan cucu laki-laki.": "basis_granddaughter_half",
+        "Dua cucu perempuan atau lebih mendapat 2/3 tanpa anak dan cucu laki-laki.": "basis_granddaughter_twothirds",
+        "Cucu perempuan mendapat 1/6 untuk melengkapi bagian keturunan perempuan menjadi 2/3.": "basis_granddaughter_sixth",
+        "Saudara seibu tunggal mendapat 1/6.": "basis_maternal_single",
+        "Dua saudara seibu atau lebih mendapat 1/3 dibagi rata.": "basis_maternal_multi",
+        "Saudara perempuan kandung tunggal mendapat 1/2 pada kasus kalalah.": "basis_full_sister_half",
+        "Dua saudara perempuan kandung atau lebih mendapat 2/3 pada kasus kalalah.": "basis_full_sister_twothirds",
+        "Saudara perempuan seayah tunggal mendapat 1/2 pada kasus kalalah.": "basis_paternal_sister_half",
+        "Dua saudara perempuan seayah atau lebih mendapat 2/3 pada kasus kalalah.": "basis_paternal_sister_twothirds",
+        "Saudara perempuan seayah mendapat 1/6 bersama satu saudara perempuan kandung.": "basis_paternal_sister_sixth",
+        "Anak laki-laki menjadi ashabah; anak perempuan bersamanya mendapat 2:1.": "basis_ashabah_son",
+        "Cucu laki-laki dari anak laki-laki menjadi ashabah; cucu perempuan bersamanya mendapat 2:1.": "basis_ashabah_grandson",
+        "Kakek bersama saudara dengan perbandingan terbaik.": "basis_ashabah_grandfather",
+        "Saudara kandung menjadi ashabah dengan perbandingan laki-laki dua bagian.": "basis_ashabah_full_brother",
+        "Saudara perempuan kandung menjadi ashabah bersama keturunan perempuan.": "basis_ashabah_full_sister",
+        "Saudara seayah menjadi ashabah dengan perbandingan laki-laki dua bagian.": "basis_ashabah_paternal_brother",
+        "Saudara perempuan seayah menjadi ashabah bersama keturunan perempuan.": "basis_ashabah_paternal_sister",
+        "Radd: sisa dikembalikan proporsional kepada ahli waris nasab penerima radd.": "basis_radd_general",
+        "Radd minoritas: sisa diberikan kepada pasangan karena tidak ada ahli waris nasab.": "basis_radd_spouse",
+        "Musytarakah: bagian 1/3 dibagi rata antara saudara seibu dan saudara kandung.": "basis_musytarakah_equal",
+        "Nenek menggantikan bagian ibu sebesar 1/6.": "basis_grandmother_substitute",
+        "Ibu mendapat 1/3 dari sisa setelah bagian suami.": "basis_gharawain_mother_after_husband",
+        "Ibu mendapat 1/3 dari sisa setelah bagian istri.": "basis_gharawain_mother_after_wives",
+        "Suami mendapat 9/27 pada penyelesaian akdariyyah.": "basis_akdariyyah_husband",
+        "Ibu mendapat 6/27 pada penyelesaian akdariyyah.": "basis_akdariyyah_mother",
+        "Kakek dan saudara perempuan digabung lalu dibagi 2:1.": "basis_akdariyyah_grandfather",
+        "Saudara perempuan mendapat bagian setelah penggabungan dengan kakek.": "basis_akdariyyah_sister",
+        "Ibu mendapat 1/6 dalam komposisi musytarakah.": "basis_musytarakah_mother",
+        "Sisa setelah kakek dibagi 2:1 antara saudara kandung.": "basis_gf_siblings_full",
+        "Sisa setelah kakek dibagi 2:1 antara saudara seayah.": "basis_gf_siblings_paternal",
+        "Sisa setelah kakek dibagi rata kepada saudara.": "basis_gf_siblings_equal",
+        "Sisa setelah kakek dibagi rata kepada saudara perempuan.": "basis_gf_siblings_sisters"
+      };
+      if (text.startsWith("Kakek mendapat ") && text.includes("dari sisa (terbaik dari muqasamah")) {
+        const match = text.match(/Kakek mendapat ([\d\/]+) dari sisa/);
+        if (match) return { key: "basis_gf_best", replacements: { share: match[1] } };
+      }
+      const key = map[text];
+      if (key) return { key: key, replacements: {} };
+      return null;
+    }
+
+    function getLabelTranslation(key, fallback) {
+      if (!key) return fallback;
+      const field = HEIR_FIELDS.find(f => f.key === key);
+      if (field && field.i18nKey) {
+        const translated = t(field.i18nKey);
+        if (translated && translated !== field.i18nKey) return translated;
+      }
+      return fallback;
+    }
+
+    function applyLang() {
+      document.documentElement.lang = currentLang === "en" ? "en" : "id";
+      // Update all data-i18n elements
+      document.querySelectorAll("[data-i18n]").forEach((el) => {
+        const key = el.dataset.i18n;
+        const attr = el.dataset.i18nAttr;
+        const replaces = el.dataset.i18nReplace ? JSON.parse(el.dataset.i18nReplace) : {};
+        if (attr) {
+          el.setAttribute(attr, t(key, replaces));
+        } else if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") {
+          el.placeholder = t(key, replaces);
+        } else {
+          el.innerHTML = t(key, replaces);
+        }
+      });
+      // Update disclaimer (has HTML inside)
+      const disclaimerEl = document.getElementById("disclaimerText");
+      if (disclaimerEl) {
+        disclaimerEl.innerHTML = t("disclaimer");
+      }
+      // Update lang toggle visual
+      const langToggle = document.getElementById("langToggle");
+      if (langToggle) {
+        langToggle.classList.toggle("lang-en", currentLang === "en");
+        langToggle.setAttribute("aria-label", t("nav_ganti_bahasa"));
+      }
+    }
+
+    function setLang(lang) {
+      if (lang === currentLang) return;
+      currentLang = lang;
+      try { localStorage.setItem(LANG_STORAGE_KEY, lang); } catch(e) {}
+      applyLang();
+      // Re-render heir inputs with new language, preserving counts
+      const savedCounts = {};
+      HEIR_FIELDS.forEach(f => { savedCounts[f.key] = getCount(f.key); });
+      renderHeirInputs();
+      HEIR_FIELDS.forEach(f => { setCount(f.key, savedCounts[f.key]); });
+      syncSpouseAvailability();
+      // Sync binary checkbox visual states after re-render
+      document.querySelectorAll("[data-binary]").forEach((btn) => {
+        const key = btn.dataset.binary;
+        const count = getCount(key);
+        const checked = count > 0;
+        btn.setAttribute("aria-pressed", checked ? "true" : "false");
+        btn.classList.toggle("is-checked", checked);
+      });
+      // Re-render if result exists
+      if (state.lastResult && state.lastMoney) {
+        renderResult(state.lastResult, state.lastMoney);
+      }
+      showToast(currentLang === "en" ? t("toast_lang_changed") : t("toast_lang_changed_id"), "translate");
+    }
+
+    function initLang() {
+      const saved = localStorage.getItem(LANG_STORAGE_KEY);
+      const prefersEn = navigator.language && navigator.language.startsWith("en");
+      currentLang = saved || (prefersEn ? "en" : "id");
+      applyLang();
+      // Setup toggle
+      const toggle = document.getElementById("langToggle");
+      if (toggle) {
+        toggle.addEventListener("click", () => {
+          setLang(currentLang === "id" ? "en" : "id");
+          // Recalculate to refresh notices and other dynamic text
+          if (state.lastResult && state.lastMoney) {
+            calculateAndRender();
+          }
+        });
+      }
+    }
+
     const formatter = new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 });
     const plainNumber = new Intl.NumberFormat("id-ID", { maximumFractionDigits: 0 });
 
@@ -2033,7 +2954,7 @@
       const next = current === "dark" ? "light" : "dark";
       applyTheme(next);
       localStorage.setItem("faraidpro-theme", next);
-      showToast(next === "dark" ? "Mode gelap diaktifkan" : "Mode terang diaktifkan", next === "dark" ? "dark_mode" : "light_mode");
+      showToast(next === "dark" ? t("toast_theme_dark") : t("toast_theme_light"), next === "dark" ? "dark_mode" : "light_mode");
     }
 
     /* ===== STEP PROGRESS ===== */
@@ -2164,13 +3085,13 @@
       updateNetPreview();
       updateSteps();
       calculateAndRender();
-      showToast(`Contoh kasus dimuat: ${key}`, "science");
+      showToast(t("toast_sample_loaded") + ": " + key, "science");
     }
 
     /* ===== PDF EXPORT ===== */
     function exportPDF() {
       if (!state.lastResult || !state.lastResult.rows.length) {
-        showToast("Hitung waris terlebih dahulu", "warning");
+        showToast(t("toast_calc_first"), "warning");
         return;
       }
       showToast("Membuka dialog cetak...", "print");
@@ -2208,23 +3129,27 @@
     function renderHeirInputs() {
       const container = document.getElementById("heirGroups");
       const groups = [...new Set(HEIR_FIELDS.map((field) => field.group))];
+      const groupKeys = {};
+      HEIR_FIELDS.forEach((f) => { groupKeys[f.group] = f.groupKey; });
       container.innerHTML = groups.map((group) => {
         const cards = HEIR_FIELDS.filter((field) => field.group === group).map((field) => {
           const iconColor = field.iconColor || "neutral";
+          const label = t(field.i18nKey);
+          const hint = t(field.i18nHintKey);
           if (field.isBinary) {
             return `
           <div class="heir-card" data-heir-card="${field.key}">
             <div class="heir-title">
               <span class="material-symbols-outlined heir-icon-${iconColor}" aria-hidden="true">${field.icon}</span>
               <span>
-                <strong>${field.label}</strong>
-                <small>${field.hint}</small>
+                <strong>${label}</strong>
+                <small>${hint}</small>
               </span>
             </div>
-            <button class="binary-check" type="button" data-binary="${field.key}" aria-pressed="false" aria-label="${field.label}">
+            <button class="binary-check" type="button" data-binary="${field.key}" aria-pressed="false" aria-label="${label}">
               <span>
-                <span class="binary-label">Hidup</span>
-                <span class="binary-hint">Centang jika masih ada</span>
+                <span class="binary-label">${t("binary_living")}</span>
+                <span class="binary-hint">${t("binary_hint")}</span>
               </span>
               <span class="check-indicator">✓</span>
             </button>
@@ -2236,23 +3161,24 @@
             <div class="heir-title">
               <span class="material-symbols-outlined heir-icon-${iconColor}" aria-hidden="true">${field.icon}</span>
               <span>
-                <strong>${field.label}</strong>
-                <small>${field.hint}</small>
+                <strong>${label}</strong>
+                <small>${hint}</small>
               </span>
             </div>
             <div class="counter">
-              <button class="counter-button" type="button" data-step="${field.key}" data-delta="-1" aria-label="Kurangi ${field.label}">
+              <button class="counter-button" type="button" data-step="${field.key}" data-delta="-1" aria-label="${t("counter_minus_prefix")}${label}">
                 <span class="material-symbols-outlined" aria-hidden="true">remove</span>
               </button>
-              <input id="count-${field.key}" data-heir-input="${field.key}" inputmode="numeric" min="0" max="${field.max}" value="0" aria-label="Jumlah ${field.label}" />
-              <button class="counter-button" type="button" data-step="${field.key}" data-delta="1" aria-label="Tambah ${field.label}">
+              <input id="count-${field.key}" data-heir-input="${field.key}" inputmode="numeric" min="0" max="${field.max}" value="0" aria-label="${t("binary_label_prefix")}${label}" />
+              <button class="counter-button" type="button" data-step="${field.key}" data-delta="1" aria-label="${t("counter_plus_prefix")}${label}">
                 <span class="material-symbols-outlined" aria-hidden="true">add</span>
               </button>
             </div>
           </div>
         `;
         }).join("");
-        return `<div class="heir-group"><h3>${group}</h3><div class="heir-grid">${cards}</div></div>`;
+        const groupLabel = t(groupKeys[group] || "");
+        return `<div class="heir-group"><h3>${groupLabel}</h3><div class="heir-grid">${cards}</div></div>`;
       }).join("");
       syncSpouseAvailability();
     }
@@ -2311,16 +3237,21 @@
       };
     }
 
+    function translateBlockedReason(reason) {
+      const key = getBlockedReasonKey(reason);
+      return key ? t(key) : reason;
+    }
+
     function renderResult(result, money) {
       const badge = document.getElementById("caseBadge");
-      badge.innerHTML = `<span class="material-symbols-outlined" aria-hidden="true">verified</span>${escapeHtml(result.caseType)}`;
+      badge.innerHTML = `<span class="material-symbols-outlined" aria-hidden="true">verified</span>${escapeHtml(t(getCaseTypeKey(result.caseType)))}`;
       const content = document.getElementById("resultContent");
       if (!result.rows.length) {
         content.className = "empty-state";
         content.innerHTML = `
           <span class="material-symbols-outlined" aria-hidden="true">error</span>
-          <strong>Tidak ada pembagian</strong>
-          <span>${escapeHtml(result.notices[0]?.text || "Periksa kembali harta dan ahli waris.")}</span>
+          <strong>${t("no_division_title")}</strong>
+          <span>${escapeHtml(result.notices[0]?.text || t("no_division_hint"))}</span>
         `;
         return;
       }
@@ -2329,8 +3260,8 @@
       const rowsHtml = result.rows.map((row) => `
         <tr>
           <td>
-            <strong>${escapeHtml(row.label)}</strong>
-            <div class="reason">${row.count > 1 ? `${row.count} orang` : "1 orang"}</div>
+            <strong>${escapeHtml(getLabelTranslation(row.key, row.label))}</strong>
+            <div class="reason">${row.count > 1 ? t("table_persons", {count: row.count}) : t("table_one_person")}</div>
           </td>
           <td>
             <strong>${escapeHtml(row.fraction)}</strong>
@@ -2338,11 +3269,14 @@
           </td>
           <td>
             <span class="amount">${formatCurrency(row.amount)}</span>
-            <div class="reason">${row.count > 1 ? `${formatCurrency(row.perPersonAmount)} per orang` : "bagian tunggal"}</div>
+            <div class="reason">${row.count > 1 ? t("table_per_person", {amount: formatCurrency(row.perPersonAmount)}) : t("table_single")}</div>
           </td>
           <td>
-            ${escapeHtml(row.basis.join(" "))}
-            ${row.count > 1 ? `<div class="reason">Bagian per orang: ${row.perPersonFraction}</div>` : ""}
+            ${escapeHtml(row.basis.map(b => {
+              const mappedBasis = getBasisKey(b);
+              return mappedBasis ? t(mappedBasis.key, mappedBasis.replacements) : b;
+            }).join(" "))}
+            ${row.count > 1 ? `<div class="reason">${t("table_per_person_frac", {frac: row.perPersonFraction})}</div>` : ""}
           </td>
         </tr>
       `).join("");
@@ -2351,8 +3285,8 @@
         <div class="blocked-list">
           ${result.blocked.map((item) => `
             <div class="blocked-item">
-              <strong>${escapeHtml(item.label)}</strong>${item.count > 1 ? ` (${item.count} orang)` : ""}<br />
-              <span>${escapeHtml(item.reason)}</span>
+              <strong>${escapeHtml(getLabelTranslation(item.key, item.label))}</strong>${item.count > 1 ? ` (${t("table_persons", {count: item.count})})` : ""}<br />
+              <span>${escapeHtml(translateBlockedReason(item.reason))}</span>
             </div>
           `).join("")}
         </div>
@@ -2360,15 +3294,23 @@
 
       const notices = [...result.notices];
       if (money.will > money.allowedWill) {
-        notices.unshift({ type: "warning", icon: "gavel", text: `Wasiat dibatasi menjadi ${formatCurrency(money.allowedWill)} karena melebihi sepertiga dari sisa setelah tajhiz dan hutang.` });
+        notices.unshift({ type: "warning", icon: "gavel", text: t("notice_will_capped", {amount: formatCurrency(money.allowedWill)}) });
       }
       if (money.funeral + money.debts > money.gross) {
-        notices.unshift({ type: "danger", icon: "error", text: "Biaya tajhiz dan hutang melebihi harta peninggalan, sehingga harta waris bersih menjadi nol." });
+        notices.unshift({ type: "danger", icon: "error", text: t("notice_negative_estate") });
       }
 
-      const noticeHtml = notices.length ? `
+      // Translate notice texts
+      const translatedNotices = notices.map((notice) => {
+        const mapped = getNoticeKey(notice.text);
+        if (mapped) {
+          return { ...notice, text: t(mapped.key, mapped.replacements) };
+        }
+        return notice;
+      });
+      const noticeHtml = translatedNotices.length ? `
         <div class="notice-list">
-          ${notices.map((notice) => `
+          ${translatedNotices.map((notice) => `
             <div class="notice ${notice.type === "warning" ? "warning" : notice.type === "danger" ? "danger" : ""}">
               <span class="material-symbols-outlined" aria-hidden="true">${notice.icon || "info"}</span>
               <span>${escapeHtml(notice.text)}</span>
@@ -2380,12 +3322,12 @@
       content.innerHTML = `
         <div class="summary-grid">
           <div class="summary-tile">
-            <span>Harta dibagi</span>
+            <span>${t("summary_estate")}</span>
             <strong>${formatCurrency(money.estate)}</strong>
           </div>
           <div class="summary-tile">
-            <span>Metode</span>
-            <strong>${escapeHtml(result.method)}</strong>
+            <span>${t("summary_method")}</span>
+            <strong>${escapeHtml(getMethodDisplayText(result.method))}</strong>
           </div>
         </div>
         <div class="donut-wrap">
@@ -2394,7 +3336,7 @@
             ${result.rows.slice(0, 8).map((row, index) => `
               <div class="legend-item">
                 <span class="legend-swatch" style="background:${CHART_COLORS[index % CHART_COLORS.length]}"></span>
-                <span>${escapeHtml(row.label)}</span>
+                <span>${escapeHtml(getLabelTranslation(row.key, row.label))}</span>
                 <strong>${row.percent.toFixed(1).replace(".", ",")}%</strong>
               </div>
             `).join("")}
@@ -2404,16 +3346,16 @@
           <table>
             <thead>
               <tr>
-                <th>Ahli waris</th>
-                <th>Bagian</th>
-                <th>Nominal</th>
-                <th>Dasar</th>
+                <th>${t("table_heir")}</th>
+                <th>${t("table_share")}</th>
+                <th>${t("table_amount")}</th>
+                <th>${t("table_basis")}</th>
               </tr>
             </thead>
             <tbody>${rowsHtml}</tbody>
           </table>
         </div>
-        <small class="sub-table-hint">Geser tabel ke samping untuk melihat informasi selengkapnya</small>
+        <small class="sub-table-hint">${t("table_scroll_hint")}</small>
         ${noticeHtml}
         ${blockedHtml}
       `;
@@ -2455,27 +3397,27 @@
       updateNetPreview();
       updateSteps();
       try { localStorage.removeItem("faraidpro-state"); } catch(e) {}
-      document.getElementById("caseBadge").innerHTML = `<span class="material-symbols-outlined" aria-hidden="true">pending</span>Belum dihitung`;
+      document.getElementById("caseBadge").innerHTML = `<span class="material-symbols-outlined" aria-hidden="true">pending</span>${t("result_not_calc")}`;
       const content = document.getElementById("resultContent");
       content.className = "empty-state";
       content.innerHTML = `
         <span class="material-symbols-outlined" aria-hidden="true">balance</span>
-        <strong>Hasil akan muncul di sini</strong>
-        <span>Bagian, nominal, dan alasan hukum ditampilkan setelah perhitungan.</span>
+        <strong>${t("no_result_yet")}</strong>
+        <span>${t("no_result_hint")}</span>
       `;
-      if (!silent) showToast("Form direset", "restart_alt");
+      if (!silent) showToast(t("toast_reset"), "restart_alt");
     }
 
 
     function calculateAndRender() {
       const money = getMoneyState();
       if (!state.gender) {
-        document.getElementById("caseBadge").innerHTML = `<span class="material-symbols-outlined" aria-hidden="true">error</span>Perlu data`;
+        document.getElementById("caseBadge").innerHTML = `<span class="material-symbols-outlined" aria-hidden="true">error</span>${t("no_data")}`;
         document.getElementById("resultContent").className = "empty-state";
         document.getElementById("resultContent").innerHTML = `
           <span class="material-symbols-outlined" aria-hidden="true">person_alert</span>
-          <strong>Pilih jenis kelamin pewaris</strong>
-          <span>Bagian pasangan bergantung pada data ini.</span>
+          <strong>${t("notice_pick_gender")}</strong>
+          <span>${t("notice_gender_desc")}</span>
         `;
         updateSteps();
         return;
@@ -2499,7 +3441,7 @@
       const checkbox = document.getElementById(id);
       const status = document.getElementById(id + "Status");
       if (!checkbox || !status) return;
-      status.textContent = checkbox.checked ? "Aktif" : "Nonaktif";
+      status.textContent = checkbox.checked ? t("switch_active") : t("switch_inactive");
       status.className = "switch-status " + (checkbox.checked ? "active" : "inactive");
     }
 
@@ -2543,7 +3485,7 @@
       const errorEl = document.getElementById("grossEstateError");
       if (!errorEl) return;
       if (funeral + debts > gross && gross > 0) {
-        errorEl.textContent = "Biaya tajhiz dan hutang melebihi harta peninggalan!";
+        errorEl.textContent = t("val_estate_error");
         document.getElementById("grossEstate").classList.add("has-error");
       } else {
         errorEl.textContent = "";
@@ -2552,6 +3494,7 @@
     }
 
     function init() {
+      initLang();
       initTheme();
       renderHeirInputs();
       initAccordion();
@@ -2680,7 +3623,7 @@
 
       // Auto-calculate
       calculateAndRender();
-      showToast("Contoh kasus acak dimuat", "science");
+      showToast(t("toast_random_sample"), "science");
     }
 
       document.getElementById("heroSampleBtn").addEventListener("click", loadRandomSample);
@@ -2702,11 +3645,11 @@
         e.preventDefault();
         const url = encodeShareURL();
         if (navigator.clipboard) {
-          navigator.clipboard.writeText(url).then(() => showToast("URL disalin ke clipboard", "link")).catch(() => {
-            prompt("Salin URL ini:", url);
+          navigator.clipboard.writeText(url).then(() => showToast(t("toast_url_copied"), "link")).catch(() => {
+            prompt(t("toast_copy_url"), url);
           });
         } else {
-          prompt("Salin URL ini:", url);
+          prompt(t("toast_copy_url"), url);
         }
       });
       updateNetPreview();
