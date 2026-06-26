@@ -335,7 +335,7 @@
     }
 
     .net-strip span { color: var(--muted); display: block; font-size: 0.92rem; }
-    .net-strip strong { color: var(--primary); display: block; font-size: clamp(1.35rem, 4vw, 2rem); line-height: 1.15; }
+    .net-strip strong { color: var(--primary); display: block; font-size: clamp(1.35rem, 4vw, 2rem); line-height: 1.15; overflow-wrap: anywhere; word-break: break-word; max-width: 100%; }
 
     .heir-groups { display: grid; gap: 18px; }
 
@@ -1138,6 +1138,11 @@
       <span class="material-symbols-outlined" aria-hidden="true">gavel</span>
       <span><strong>Simulasi awal:</strong> Hasil ini bersifat informatif dan bukan pengganti konsultasi ahli faraid atau putusan pengadilan.</span>
     </div>
+    <div class="steps" aria-label="Alur kalkulator">
+      <div class="step-pill" id="step1"><b>1</b><span>Harta</span></div>
+      <div class="step-pill" id="step2"><b>2</b><span>Ahli waris</span></div>
+      <div class="step-pill" id="step3"><b>3</b><span>Hasil</span></div>
+    </div>
 
     <div class="layout">
       <form class="clay-card" id="calculator" autocomplete="off">
@@ -1354,7 +1359,7 @@
       </div>
     </section>
 
-    <footer>
+    <div style="text-align:center;margin-top:20px"><a class="ghost-button" href="https://github.com/fathahnoor/kalkulator-waris/blob/main/Mekanisme%20Perhitungan%20Waris%20Islam%20(Ilmu%20Faraid)%20%E2%80%94%20Panduan%20Komprehensif%20untuk%20Pengembangan%20Aplikasi.md" target="_blank" rel="noopener noreferrer" style="text-decoration:none;display:inline-flex;align-items:center;gap:8px;"><span class="material-symbols-outlined" aria-hidden="true">menu_book</span> Baca Panduan Lengkap Mekanisme Perhitungan</a></div><footer>
       FaraidPro memproses data di browser. Untuk sengketa, harta bersama, ahli waris pengganti, atau penghalang waris, gunakan hasil ini sebagai simulasi awal.
     </footer>
     <div class="fab-container">
@@ -2588,13 +2593,97 @@
       document.getElementById("calculator").addEventListener("reset", (event) => { event.preventDefault(); resetForm(); });
       const sampleBtn = document.getElementById("loadSample");
       const sampleMenu = document.getElementById("sampleMenu");
-      document.getElementById("heroSampleBtn").addEventListener("click", () => {
-        document.getElementById("loadSample").click();
+
+    function loadRandomSample() {
+      resetForm(true);
+
+      // Random gender
+      const gender = Math.random() < 0.5 ? "laki" : "perempuan";
+      selectGender(gender);
+      document.querySelectorAll("[data-gender]").forEach((b) => {
+        b.classList.remove("gender-male", "gender-female");
+        if (b.dataset.gender === gender) {
+          b.classList.add(gender === "laki" ? "gender-male" : "gender-female");
+        }
       });
 
-      document.getElementById("heroSampleBtn").addEventListener("click", () => {
-        document.getElementById("loadSample").click();
+      // Random estate values (in IDR)
+      const gross = Math.round((500000000 + Math.random() * 4500000000) / 1000000) * 1000000;
+      const funeralCost = Math.round((5000000 + Math.random() * 25000000) / 1000000) * 1000000;
+      const debts = Math.round((0 + Math.random() * 50000000) / 1000000) * 1000000;
+      const willAmount = Math.round((0 + Math.random() * 100000000) / 1000000) * 1000000;
+
+      document.getElementById("grossEstate").value = plainNumber.format(gross);
+      document.getElementById("funeralCost").value = plainNumber.format(funeralCost);
+      document.getElementById("debts").value = plainNumber.format(debts);
+      document.getElementById("willAmount").value = plainNumber.format(willAmount);
+
+      // Randomly populate heirs
+      const allHeirs = [
+        "husband", "wives", "father", "mother",
+        "son", "daughter", "grandson", "granddaughter",
+        "grandfather", "grandmother_maternal", "grandmother_paternal",
+        "full_brother", "full_sister", "paternal_brother", "paternal_sister",
+        "maternal_brother", "maternal_sister"
+      ];
+
+      allHeirs.forEach((key) => {
+        const field = HEIR_FIELDS.find((f) => f.key === key);
+        if (!field) return;
+
+        // Skip spouse based on gender
+        if (gender === "laki" && key === "husband") return;
+        if (gender === "perempuan" && key === "wives") return;
+
+        // Binary fields (father, mother, grandfather, grandmothers) - 50% chance
+        if (field.isBinary) {
+          const present = Math.random() < 0.45;
+          const binaryBtn = document.querySelector("[data-binary=\"" + key + "\"]");
+          if (binaryBtn) {
+            binaryBtn.setAttribute("aria-pressed", present ? "true" : "false");
+            binaryBtn.classList.toggle("is-checked", present);
+          }
+          const input = document.getElementById("count-" + key);
+          if (input) input.value = present ? "1" : "0";
+          return;
+        }
+
+        // Wives have max 4
+        if (key === "wives") {
+          const count = Math.random() < 0.65 ? (Math.floor(Math.random() * 4) + 1) : 0;
+          setCount(key, count);
+          return;
+        }
+
+        // Other heirs - random 0-3
+        const count = Math.random() < 0.5 ? Math.floor(Math.random() * 4) : 0;
+        setCount(key, count);
       });
+
+      // Ensure at least some heirs are selected for an interesting case
+      const totalHeirs = allHeirs.reduce((sum, key) => sum + getCount(key), 0);
+      if (totalHeirs < 2) {
+        // Add default heirs
+        if (gender === "laki") setCount("wives", 1);
+        else setCount("husband", 1);
+        setCount("father", 1);
+        setCount("mother", 1);
+        document.querySelectorAll("[data-binary]").forEach((btn) => {
+          btn.setAttribute("aria-pressed", "true");
+          btn.classList.add("is-checked");
+        });
+      }
+
+      syncSpouseAvailability();
+      updateNetPreview();
+      updateSteps();
+
+      // Auto-calculate
+      calculateAndRender();
+      showToast("Contoh kasus acak dimuat", "science");
+    }
+
+      document.getElementById("heroSampleBtn").addEventListener("click", loadRandomSample);
 
       sampleBtn.addEventListener("click", (e) => {
         e.stopPropagation();
