@@ -1695,6 +1695,16 @@
       const eligible = {};
       HEIR_FIELDS.forEach((field) => { eligible[field.key] = positiveCount(counts, field.key) > 0; });
 
+      // ===== GUARD: Ahli waris yang TIDAK PERNAH terhijab hirman =====
+      // Berdasarkan dokumen faraid bagian 6.1:
+      // "Tidak pernah terhijab (kecuali ada penghalang mutlak):
+      //  Suami, Istri, Anak laki-laki, Anak perempuan, Ayah, Ibu."
+      // Kode hijab di bawah ini tidak boleh menghilangkan keenam ini dari eligible.
+      // Jika ada bug yang menghapus mereka, Baitul Mal akan terpicu secara salah.
+      const GUARDED_HEIRS = ["husband", "wives", "son", "daughter", "father", "mother"];
+      const eligibleGuarded = {};
+      GUARDED_HEIRS.forEach((key) => { eligibleGuarded[key] = eligible[key]; });
+
       if (positiveCount(counts, "grandfather") > 0 && positiveCount(counts, "father") > 0) {
         eligible.grandfather = false;
         addBlocked(result, "grandfather", "Terhijab oleh ayah.", counts.grandfather);
@@ -1762,6 +1772,13 @@
         }
       }
 
+      // ===== VERIFIKASI GUARD: pastikan tidak ada yang menghapus Ayah/Ibu/dll =====
+      GUARDED_HEIRS.forEach((key) => {
+        if (eligibleGuarded[key] === true && eligible[key] === false) {
+          console.warn(`FARAID GUARD: ${key} telah dihapus dari eligible! Ini melanggar aturan hijab hirman.`);
+        }
+      });
+
       applyFixedShares(result, eligible, descendant, maleDescendant, femaleDescendant, siblingCount);
       const fixedTotal = Array.from(result.shares.values()).reduce((sum, row) => sum.add(row.share), ZERO);
 
@@ -1793,11 +1810,16 @@
         if (ashabah) addNotice(result, "Ada calon ashabah, tetapi tidak ada sisa setelah bagian pasti dibagikan.", "warning", "remove_circle");
       }
 
+      // ===== FALLBACK BAITUL MAL — 4 TINGKAT =====
+      // Baris ini hanya terpicu jika: tidak ada ashabul furudh, tidak ada ashabah,
+      // tidak ada penerima radd, dan tidak ada dzawil arham.
+      // Jika Ayah atau Ibu ada di input, guard di atas memastikan mereka tetap eligible,
+      // sehingga minimal salah satu mendapat bagian dan shares.size > 0.
       if (result.shares.size === 0 && result.baitulMal.isZero()) {
         result.baitulMal = ONE;
         result.caseType = "Baitul Mal";
-        result.method = "Tidak ada ahli waris yang memenuhi kategori utama.";
-        addNotice(result, "Tidak ada ahli waris furudh atau ashabah pada input ini; sisa diarahkan ke Baitul Mal/dzawil arham sesuai kebijakan hukum yang dipakai.", "warning", "account_balance");
+        result.method = "Tidak ada ahli waris furudh, ashabah, atau penerima radd.";
+        addNotice(result, "Tidak ada ahli waris furudh, ashabah, atau penerima radd. Seluruh harta ke Baitul Mal / kebijakan lanjutan.", "warning", "account_balance");
       }
 
       return finalizeResult(result);
@@ -1979,6 +2001,12 @@
     }
 
     function applyRadd(result, residue, config) {
+      // ===== FALLBACK TINGKAT 1: Radd ke 8 golongan nasab =====
+      // Delapan golongan penerima radd (dokumen bagian 9.2):
+      // Anak perempuan, Cucu perempuan dari ibn, Saudara perempuan kandung,
+      // Saudara perempuan seayah, Ibu, Nenek shahihah,
+      // Saudara perempuan seibu, Saudara laki-laki seibu
+      // Tidak termasuk: Suami, Istri (hubungan sababiyah), Ayah, Kakek (ashabah).
       const raddKeys = new Set(["daughter", "granddaughter", "mother", "grandmother_maternal", "grandmother_paternal", "maternal_brother", "maternal_sister", "full_sister", "paternal_sister"]);
       const raddRows = Array.from(result.shares.values()).filter((row) => raddKeys.has(row.key));
       const raddBase = shareSum(raddRows);
@@ -1993,6 +2021,7 @@
         return;
       }
 
+      // ===== FALLBACK TINGKAT 2: Radd ke suami/istri (opsi minoritas) =====
       const spouseRows = Array.from(result.shares.values()).filter((row) => row.key === "husband" || row.key === "wives");
       const spouseBase = shareSum(spouseRows);
       if (config.spouseRadd && spouseBase.gt(ZERO)) {
@@ -2005,11 +2034,13 @@
         return;
       }
 
+      // ===== FALLBACK TINGKAT 3: Dzawil Arham (pendapat Hanafi/Hambali) =====
       if (config.dzawilArham) {
         distributeDzawilArham(result, residue);
         return;
       }
 
+      // ===== FALLBACK TINGKAT 4: Baitul Mal (pendapat Syafii/Maliki — default jumhur) =====
       result.baitulMal = result.baitulMal.add(residue);
       if (spouseBase.gt(ZERO)) {
         result.caseType = "Baitul Mal";
@@ -2018,7 +2049,7 @@
       } else {
         result.caseType = "Baitul Mal";
         result.method = "Tidak ada ashabah dan tidak ada penerima radd.";
-        addNotice(result, `Ada sisa ${residue.toString()} tanpa ashabah atau penerima radd.`, "warning", "account_balance");
+        addNotice(result, `Ada sisa ${residue.toString()} tanpa ashabah, penerima radd, atau dzawil arham.`, "warning", "account_balance");
       }
     }
 
