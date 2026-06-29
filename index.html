@@ -3067,6 +3067,7 @@
         if (data.willAmount) document.getElementById("willAmount").value = data.willAmount;
         if (data.willConsent) document.getElementById("willConsent").checked = true;
         if (data.counts) HEIR_FIELDS.forEach(f => { if (data.counts[f.key]) setCount(f.key, data.counts[f.key]); });
+        document.querySelectorAll("[data-binary]").forEach((btn) => { const key = btn.dataset.binary; const count = getCount(key); const checked = count > 0; btn.setAttribute("aria-pressed", checked ? "true" : "false"); btn.classList.toggle("is-checked", checked); });
         if (data.config) {
           document.getElementById("optGharawain").checked = data.config.gharawain ?? true;
           document.getElementById("optMusytarakah").checked = data.config.musytarakah ?? true;
@@ -3200,6 +3201,7 @@
           if (field.isBinary) {
             return `
           <div class="heir-card" data-heir-card="${field.key}">
+            <input type="hidden" id="count-${field.key}" value="0" />
             <div class="heir-title">
               <span class="material-symbols-outlined heir-icon-${iconColor}" aria-hidden="true">${field.icon}</span>
               <span>
